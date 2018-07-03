@@ -1,4 +1,9 @@
-# Smartfields & forms
+# Laravel: Smartfields & form helper
+
+Aims to create a centralised place for configuring fields.
+
+
+## Introduction
 
 Example migration:
 ```
@@ -30,6 +35,14 @@ SmartSchema::create('sites', function ($table) {
 `->unique()`
 `->required()` etc...
 
+When storing the object in your controller, the validation helper should be called with the object type:
+```
+public function store(Request $request) {
+    SchemaHelper::validate($request, 'sites');
+    Site::create($request->all());
+}
+```
+
 includes `->nullable()` for db schema
 
 ## Model attributes
@@ -48,3 +61,20 @@ class User extends Model
 }
 
 ```
+
+## Forms
+The form helper will generate (currently Bootstrap 4) forms based on the field data.
+
+In migration, use `->forms([...` to show a field in the auto-generated forms:
+```
+->forms([
+    'type' => 'text',
+    'label' => 'Site name'
+])
+```
+
+To render a form:
+```
+{!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store')) !!}
+```
+
