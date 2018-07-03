@@ -1,0 +1,12 @@
+{
+    "name": "Appoly/SmartSchema",
+    "description": "Form helper for Laravel",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Appoly",
+            "email": "john@appoly.co.uk"
+        }
+    ],
+    "require": {}
+}
