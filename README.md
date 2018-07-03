@@ -1,4 +1,4 @@
-### Smartfields & forms
+# Smartfields & forms
 
 Example migration:
 ```
