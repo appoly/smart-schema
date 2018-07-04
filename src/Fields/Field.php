@@ -9,6 +9,7 @@ class Field
     private $type;
     private $forms;
     private $cast;
+    private $unique = false;
 
     /**
      * @return mixed
@@ -174,9 +175,16 @@ class Field
         return $this;
     }
 
-    public function unique()
+    public function unique($table)
     {
-        $this->validation[] = 'unique';
+        $this->unique = true;
+        $this->validation[] = 'unique:' . $table;
+        return $this;
+    }
+
+    public function email()
+    {
+        $this->validation[] = 'email';
         return $this;
     }
 
@@ -266,6 +274,14 @@ class Field
     {
         $this->cast = 'timestamp';
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnique(): bool
+    {
+        return $this->unique;
     }
 
 }

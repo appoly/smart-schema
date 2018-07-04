@@ -76,6 +76,10 @@ class SmartSchema
                     $new_field->nullable();
                 }
 
+                if ($field->isUnique()) {
+                    $new_field->unique();
+                }
+
                 if ($field->getDefault()) {
                     $new_field->default($field->getDefault());
                 }

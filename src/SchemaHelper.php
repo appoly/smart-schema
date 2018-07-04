@@ -25,7 +25,7 @@ class SchemaHelper
         return new SchemaHelper($name);
     }
 
-    public static function form($name, $action)
+    public static function form($name, $action, $preloaded, $form_values)
     {
 
         $loaded_fields = self::get($name)->getFields();
@@ -35,7 +35,7 @@ class SchemaHelper
                 $fields[] = $loaded_field->getForms();
             }
         }
-        return view('smartschema::form', compact('fields', 'action'));
+        return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values'));
     }
 
     public static function getValidationRules($name)
@@ -115,7 +115,7 @@ class SchemaHelper
     public function save()
     {
         if (!Schema::hasTable('schema')) {
-            Schema::replace('schema', function (Blueprint $table) {
+            Schema::create('schema', function (Blueprint $table) {
                 $table->string('name');
                 $table->unique('name');
                 $table->text('fields');
@@ -247,4 +247,12 @@ class SchemaHelper
         $field->setType('binary');
         return $field;
     }
+
+    public function virtual($name)
+    {
+        $field = $this->field($name);
+        $field->setType('virtual');
+        return $field;
+    }
+
 }
