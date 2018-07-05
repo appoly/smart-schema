@@ -13,5 +13,12 @@
     "psr-4": {
       "Appoly\\SmartSchema\\": "src/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Appoly\\SmartSchema\\FormsProvider"
+      ],
+    }
   }
 }
