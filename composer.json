@@ -1,5 +1,5 @@
 {
-    "name": "Appoly/SmartSchema",
+    "name": "appoly/smart-schema",
     "description": "Form helper for Laravel",
     "type": "library",
     "authors": [
