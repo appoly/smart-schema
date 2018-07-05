@@ -1,0 +1,29 @@
+@extends('layouts.app')
+
+@section('content')
+
+    <div class="btn-group float-right">
+        <a href="{{ route('%kebab_case_plural%.create') }}" class="btn btn-primary">+ New %pretty_name_singular%</a>
+    </div>
+    <h1>%pretty_name_plural%</h1>
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        @foreach($%variable_plural% as $%variable_singular%)
+            <tr class="deletable">
+                <td>{{ $%variable_singular%->name }}</td>
+                <td>
+                    <a href="{{ route('%kebab_case_plural%.edit', $%variable_singular%) }}" class="btn btn-sm">
+                        Edit
+                    </a>
+                    <a href="javascript://" class="deleter btn btn-sm" data-route="{{ route('%kebab_case_plural%.destroy', $%variable_singular%) }}">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+@endsection

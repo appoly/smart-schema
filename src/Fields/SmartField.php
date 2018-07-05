@@ -8,7 +8,7 @@ trait SmartField
 {
     public function __construct(array $attributes = [])
     {
-        $t = str_plural(strtolower((new \ReflectionClass($this))->getShortName()));
+        $t = $this->getTable() /*str_plural(strtolower((new \ReflectionClass($this))->getShortName()))*/;
         $this->fillable = SchemaHelper::getFillables($t);
         $this->casts = SchemaHelper::getCasts($t);
 

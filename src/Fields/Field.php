@@ -31,6 +31,7 @@ class Field
     private $fillable = false;
 
     private $default;
+    private $hasDefault = false;
     private $validation = [];
 
     /**
@@ -145,25 +146,19 @@ class Field
         return $this->type;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getDefault()
     {
         return $this->default;
     }
 
-    /**
-     * @param mixed $default
-     */
-    public function setDefault($default): void
+    public function default($default)
     {
+        $this->hasDefault = true;
         $this->default = $default;
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getValidation()
     {
         return implode('|', $this->validation);
@@ -282,6 +277,14 @@ class Field
     public function isUnique(): bool
     {
         return $this->unique;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDefault(): bool
+    {
+        return $this->hasDefault;
     }
 
 }

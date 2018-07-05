@@ -1,0 +1,17 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Edit %pretty_name_singular%</div>
+
+                    <div class="card-body">
+                        {!! \Appoly\SmartSchema\SchemaHelper::form('%table%', route('%kebab_case_plural%.update', $%variable_singular%), $%variable_singular%, isset($form_values) ? $form_values : null) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

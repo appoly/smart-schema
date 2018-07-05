@@ -1,6 +1,10 @@
 <form method="POST" action="{{ $action }}">
     @csrf
 
+    @if(isset($preloaded))
+        <input name="_method" type="hidden" value="PATCH">
+    @endif
+
     @foreach($fields as $field)
 
         @if($field['type'] == 'select' || $field['type'] == 'multiselect' || $field['type'] == 'taggable')

@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\%class%;
+use Appoly\SmartSchema\SchemaHelper;
+use Appoly\SmartSchema\SmartSchema;
+use Illuminate\Http\Request;
+
+class %class_plural%Controller extends Controller
+{
+    public function index() {
+        $%variable_plural% = %class%::all();
+        return view('%kebab_case_plural%.index', compact('%variable_plural%'));
+    }
+
+    public function create() {
+        return view('%kebab_case_plural%.create');
+    }
+
+    public function store(Request $request) {
+        SchemaHelper::validate($request, '%table%');
+        %class%::create($request->all());
+        return redirect()->route('%kebab_case_plural%.index')->with('success', __('Created.'));
+    }
+
+    public function edit(%class% $%variable_singular%)
+    {
+        return view('%kebab_case_plural%.edit', compact('%variable_singular%'));
+    }
+
+    public function update(Request $request, %class% $%variable_singular%)
+    {
+        SchemaHelper::validate($request, '%table%');
+        $%variable_singular%->update($request->except('_token'));
+        return redirect()->route('%kebab_case_plural%.index')->with('success', __('Updated.'));
+    }
+
+    public function destroy(%class% $%variable_singular%)
+    {
+        $%variable_singular%->delete();
+    }
+}

@@ -80,7 +80,7 @@ class SmartSchema
                     $new_field->unique();
                 }
 
-                if ($field->getDefault()) {
+                if ($field->hasDefault()) {
                     $new_field->default($field->getDefault());
                 }
             }
