@@ -1,12 +1,17 @@
 {
-    "name": "appoly/smart-schema",
-    "description": "Form helper for Laravel",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Appoly",
-            "email": "john@appoly.co.uk"
-        }
-    ],
-    "require": {}
+  "name": "appoly/smart-schema",
+  "description": "Form helper for Laravel",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Appoly",
+      "email": "john@appoly.co.uk"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Appoly\\SmartSchema\\": "src/"
+    }
+  }
 }
