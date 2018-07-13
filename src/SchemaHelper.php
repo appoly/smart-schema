@@ -2,12 +2,11 @@
 
 namespace Appoly\SmartSchema;
 
-
-use Appoly\SmartSchema\Fields\Field;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Appoly\SmartSchema\Fields\Field;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 class SchemaHelper
 {
@@ -27,7 +26,6 @@ class SchemaHelper
 
     public static function form($name, $action, $preloaded, $form_values)
     {
-
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
@@ -40,7 +38,6 @@ class SchemaHelper
 
     public static function getValidationRules($name)
     {
-
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
@@ -53,7 +50,6 @@ class SchemaHelper
 
     public static function getFillables($name)
     {
-
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
@@ -68,7 +64,6 @@ class SchemaHelper
 
     public static function getCasts($name)
     {
-
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
