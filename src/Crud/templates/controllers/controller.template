@@ -10,26 +10,55 @@ use Illuminate\Http\Request;
 
 class %class_plural%Controller extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index() {
         $%variable_plural% = %class%::all();
         return view('%kebab_case_plural%.index', compact('%variable_plural%'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create() {
         return view('%kebab_case_plural%.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request) {
         SchemaHelper::validate($request, '%table%');
         %class%::create($request->all());
         return redirect()->route('%kebab_case_plural%.index')->with('success', __('Created.'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\%class%  $%variable_singular%
+     * @return \Illuminate\Http\Response
+     */
     public function edit(%class% $%variable_singular%)
     {
         return view('%kebab_case_plural%.edit', compact('%variable_singular%'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\%class%  $%variable_singular%
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, %class% $%variable_singular%)
     {
         SchemaHelper::validate($request, '%table%');
@@ -37,6 +66,13 @@ class %class_plural%Controller extends Controller
         return redirect()->route('%kebab_case_plural%.index')->with('success', __('Updated.'));
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\%class%  $%variable_singular%
+     * @return void
+     * @throws \Exception
+     */
     public function destroy(%class% $%variable_singular%)
     {
         $%variable_singular%->delete();

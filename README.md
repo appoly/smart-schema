@@ -1,9 +1,11 @@
 # Laravel: Smartfields & form helper
 
-Aims to create a centralised place for configuring fields.
+Tired of repeating yourself? This package centralises everything to do with fields.
 
 
 ## Introduction
+
+Instead of having to create a migration, a request, form views and set up fillable fields, we can instead create a smart migration which handles it all.
 
 Example migration:
 ```
@@ -26,12 +28,15 @@ SmartSchema::create('sites', function ($table) {
 });
 ```
 
-## Field Types
+## Options for fields
+
+
+### Field Types
 `$table->text("name")`
 `$table->integer("user_id")`
 `$table->float("latitude")` etc...
 
-## Validation Rules
+### Validation Rules
 `->unique()`
 `->required()` etc...
 
@@ -45,7 +50,7 @@ public function store(Request $request) {
 
 includes `->nullable()` for db schema
 
-## Model attributes
+### Model attributes
 `fillable()`
 
 Casts:
@@ -77,4 +82,13 @@ To render a form:
 ```
 {!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store')) !!}
 ```
+
+## Code Generation
+This package includes a console command which will set up a boilerplate controller and view code.
+
+`php artisan crud:generate {resource_name_singular}`
+
+For example:
+
+`php artisan crud:generate client`
 

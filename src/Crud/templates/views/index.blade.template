@@ -10,12 +10,12 @@
     <table class="table">
         <tr>
             <th>Name</th>
-            <th>Actions</th>
+            <th class="text-right">Actions</th>
         </tr>
         @foreach($%variable_plural% as $%variable_singular%)
             <tr class="deletable">
                 <td>{{ $%variable_singular%->name }}</td>
-                <td>
+                <td class="text-right">
                     <a href="{{ route('%kebab_case_plural%.edit', $%variable_singular%) }}" class="btn btn-sm">
                         Edit
                     </a>
