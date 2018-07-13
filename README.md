@@ -32,13 +32,19 @@ SmartSchema::create('sites', function ($table) {
 
 
 ### Field Types
-`$table->text("name")`
-`$table->integer("user_id")`
-`$table->float("latitude")` etc...
+```
+$table->text("name")`
+$table->integer("user_id")
+$table->float("latitude")
+``` 
+etc...
 
 ### Validation Rules
-`->unique()`
-`->required()` etc...
+```
+->unique()
+->required()
+```
+ etc...
 
 When storing the object in your controller, the validation helper should be called with the object type:
 ```
@@ -54,9 +60,11 @@ includes `->nullable()` for db schema
 `fillable()`
 
 Casts:
-`array()`
-`datetime()` etc...
+```
+->array()
+->datetime()
 
+```
 
 Model must have the `SmartField` trait to use `fillable()` or any of the attribute casts.
 ```
