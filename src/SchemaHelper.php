@@ -24,7 +24,7 @@ class SchemaHelper
         return new SchemaHelper($name);
     }
 
-    public static function form($name, $action, $preloaded, $form_values)
+    public static function form($name, $action, $preloaded = null, $form_values = null)
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
