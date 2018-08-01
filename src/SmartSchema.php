@@ -80,6 +80,10 @@ class SmartSchema
                     $new_field->unique();
                 }
 
+                if($field->isRememberToken()) {
+                    $new_field->rememberToken();
+                }
+
                 if ($field->hasDefault()) {
                     $new_field->default($field->getDefault());
                 }

@@ -7,7 +7,7 @@
 
     @foreach($fields as $field)
 
-        @if($field['type'] == 'select' || $field['type'] == 'multiselect' || $field['type'] == 'taggable')
+        @if(isset($form_values[ $field['name'] ]))
             @include('smartschema::impl.' . $field['type'],
                 [
                 'field' => $field,

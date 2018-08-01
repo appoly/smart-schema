@@ -1,7 +1,7 @@
 <div class="form-group">
     <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
-    <select name="{{ $field['name'] }}" class="form-control select2able {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}" id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help">
+    <select name="{{ $field['name'] }}[]" multiple="multiple" class="form-control select2able {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}" id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help">
         @if(!isset($data) && !old($field['name']))
             <option selected disabled>Select...</option>
         @endif

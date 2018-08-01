@@ -10,6 +10,7 @@ class Field
     private $forms;
     private $cast;
     private $unique = false;
+    private $is_remember_token = false;
 
     /**
      * @return mixed
@@ -170,10 +171,11 @@ class Field
         return $this;
     }
 
-    public function unique($table)
+    public function unique($table = null)
     {
         $this->unique = true;
-        $this->validation[] = 'unique:' . $table;
+        if(isset($table))
+            $this->validation[] = 'unique:' . $table;
         return $this;
     }
 
@@ -285,6 +287,20 @@ class Field
     public function hasDefault(): bool
     {
         return $this->hasDefault;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRememberToken(): bool
+    {
+        return $this->is_remember_token;
+    }
+
+    public function rememberToken()
+    {
+        $this->is_remember_token = true;
+        return $this;
     }
 
 }
