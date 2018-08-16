@@ -62,7 +62,9 @@ class Field
      */
     public function getForms($flavour = null)
     {
-        return $this->forms[ $flavour ?? 'default' ];
+        $flavour = $flavour ?? 'default';
+        if( isset($this->forms[ $flavour ]) )
+            return $this->forms[ $flavour ];
     }
 
 
