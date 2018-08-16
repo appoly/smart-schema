@@ -7,7 +7,7 @@ class Field
 {
     private $name;
     private $type;
-    private $forms;
+    private $forms = [];
     private $cast;
     private $unique = false;
     private $is_remember_token = false;
@@ -60,16 +60,16 @@ class Field
     /**
      * @return mixed
      */
-    public function getForms()
+    public function getForms($flavour = null)
     {
-        return $this->forms;
+        return $this->forms[ $flavour ?? 'default' ];
     }
 
 
-    public function forms($forms)
+    public function forms($form_data, $flavour = null)
     {
-        $forms['name'] = $this->name;
-        $this->forms = $forms;
+        $form_data['name'] = $this->name;
+        $this->forms[ $flavour ?? 'default' ] = $form_data;
         return $this;
     }
 
