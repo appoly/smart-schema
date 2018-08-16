@@ -64,7 +64,7 @@ class SmartSchema
                     case 'time':
                         $new_field = $table->time($field->getName());
                         break;
-                    case 'timeStamp':
+                    case 'timestamp':
                         $new_field = $table->timeStamp($field->getName());
                         break;
                     case 'binary':
