@@ -24,13 +24,13 @@ class SchemaHelper
         return new SchemaHelper($name);
     }
 
-    public static function form($name, $action, $preloaded = null, $form_values = null)
+    public static function form($name, $action, $preloaded = null, $form_values = null, $flavour = null)
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
-            if ($loaded_field->getForms()) {
-                $fields[] = $loaded_field->getForms();
+            if ($loaded_field->getForms($flavour ?? 'default')) {
+                $fields[] = $loaded_field->getForms($flavour ?? 'default');
             }
         }
         return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values'));
