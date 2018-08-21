@@ -1,4 +1,4 @@
-<form method="POST" action="{{ $action }}">
+<form method="POST" action="{{ $action }}" enctype="multipart/form-data">
     @csrf
 
     @if(isset($preloaded))
