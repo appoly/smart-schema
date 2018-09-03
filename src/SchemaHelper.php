@@ -36,7 +36,7 @@ class SchemaHelper
         return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values'));
     }
 
-    public static function field($name, $type, $preloaded = null, $form_values = null)
+    public static function renderField($name, $type, $preloaded = null, $form_values = null)
     {
         if (isset($form_values)) {
             return view('smartschema::impl.' . $type,
