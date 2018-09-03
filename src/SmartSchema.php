@@ -103,6 +103,10 @@ class SmartSchema
                 $new_field->default($field->getDefault());
             }
 
+            if ($field->getRenameFrom()) {
+                $new_field->renameColumn($field->getRenameFrom(), $field->getRenameTo());
+            }
+
             if ($field->getAfter()) {
                 $new_field->after($field->getAfter());
             }

@@ -35,6 +35,8 @@ class Field
     private $after;
     private $hasDefault = false;
     private $validation = [];
+    private $renameFrom;
+    private $renameTo;
 
     /**
      * @return bool
@@ -48,6 +50,23 @@ class Field
     public function getAfter()
     {
         return $this->after;
+    }
+
+    public function getRenameFrom()
+    {
+        return $this->renameFrom;
+    }
+
+    public function getRenameTo()
+    {
+        return $this->renameTo;
+    }
+
+    public function renameColumn($from, $to)
+    {
+        $this->renameFrom = $from;
+        $this->renameTo = $to;
+        return $this;
     }
 
     /**
