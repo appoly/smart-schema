@@ -24,6 +24,7 @@ class SmartSchema
 
     public static function table($table, $callback) {
         $smartModel = new SchemaHelper($table);
+        $smartModel->load();
         $callback($smartModel);
         $smartModel->save();
 
