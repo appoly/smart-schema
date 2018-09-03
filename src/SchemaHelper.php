@@ -36,6 +36,25 @@ class SchemaHelper
         return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values'));
     }
 
+    public static function field($name, $type, $preloaded = null, $form_values = null)
+    {
+        if (isset($form_values)) {
+            return view('smartschema::impl.' . $type,
+                [
+                    'field' => $name,
+                    'values' => $form_values,
+                    'data' => isset($preloaded) ? $preloaded : null
+                ]);
+        } else {
+            return view('smartschema::impl.' . $type,
+                [
+                    'field' => $name,
+                    'data' => isset($preloaded) ? $preloaded : null
+                ]);
+
+        }
+    }
+
     public static function getValidationRules($name)
     {
         $loaded_fields = self::get($name)->getFields();
@@ -59,7 +78,6 @@ class SchemaHelper
         }
         return array_values($fields);
     }
-
 
 
     public static function getCasts($name)
