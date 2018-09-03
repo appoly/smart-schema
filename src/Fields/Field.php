@@ -32,6 +32,7 @@ class Field
     private $fillable = false;
 
     private $default;
+    private $after;
     private $hasDefault = false;
     private $validation = [];
 
@@ -41,6 +42,12 @@ class Field
     public function isFillable(): bool
     {
         return $this->fillable;
+    }
+
+
+    public function getAfter()
+    {
+        return $this->after;
     }
 
     /**
@@ -302,6 +309,12 @@ class Field
     public function rememberToken()
     {
         $this->is_remember_token = true;
+        return $this;
+    }
+
+    public function after($after)
+    {
+        $this->after = $after;
         return $this;
     }
 

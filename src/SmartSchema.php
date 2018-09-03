@@ -87,6 +87,10 @@ class SmartSchema
                 if ($field->hasDefault()) {
                     $new_field->default($field->getDefault());
                 }
+
+                if ($field->getAfter()) {
+                    $new_field->after($field->getAfter());
+                }
             }
         });
 
