@@ -106,6 +106,8 @@ class SchemaHelper
         if (isset($this->fields[$from])) {
             $this->fields[$to] = $this->fields[$from];
             unset($this->fields[$from]);
+        } else {
+            $field = $this->field($to);
         }
         $this->fields[$to]->renameColumn($from, $to);
         return $this->fields[$to];

@@ -11,6 +11,7 @@ class Field
     private $cast;
     private $unique = false;
     private $is_remember_token = false;
+    public $exists = false;
 
     /**
      * @return mixed
