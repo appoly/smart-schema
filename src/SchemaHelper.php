@@ -101,6 +101,14 @@ class SchemaHelper
         return $this->fields[$name];
     }
 
+    public function renameColumn($from, $to)
+    {
+        if (isset($this->fields[$from])) {
+            $this->fields[$to] = $this->fields[$from];
+            unset($this->fields[$from]);
+        }
+    }
+
     public static function validate(Request $request, $name)
     {
         return $request->validate(
