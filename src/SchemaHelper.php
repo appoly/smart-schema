@@ -110,7 +110,6 @@ class SchemaHelper
             $field = $this->field($to);
         }
         $this->fields[$to]->renameColumn($from, $to);
-        $this->fields[$to]->setName($to);
         return $this->fields[$to];
     }
 

@@ -127,6 +127,7 @@ class SmartSchema
             if ($field->getRenameFrom()) {
                 $smartModel->renameColumn($field->getRenameFrom(), $field->getRenameTo());
                 $table->renameColumn($field->getRenameFrom(), $field->getRenameTo());
+                $field->setName($field->getRenameTo());
             }
 
             $field->exists = true;
