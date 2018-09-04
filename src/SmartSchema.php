@@ -35,6 +35,8 @@ class SmartSchema
         Schema::table($table, function ($table) use ($smartModel) {
             SmartSchema::initiate($table, $smartModel);
         });
+
+        $smartModel->save();
     }
 
     public static function initiate($table, $smartModel)
