@@ -104,13 +104,23 @@ class SchemaHelper
     public function renameColumn($from, $to)
     {
         if (isset($this->fields[$from])) {
-            $this->fields[$to] = $this->fields[$from];
-            unset($this->fields[$from]);
+            /*$this->fields[$to] = $this->fields[$from];
+            unset($this->fields[$from]);*/
+            $this->fields = $this->replace_key($this->fields, $from, $to);
         } else {
             $field = $this->field($to);
         }
         $this->fields[$to]->renameColumn($from, $to);
         return $this->fields[$to];
+    }
+
+    private function replace_key($array, $old_key, $new_key) {
+        $keys = array_keys($array);
+        if (false === $index = array_search($old_key, $keys)) {
+            throw new Exception(sprintf('Key "%s" does not exit', $old_key));
+        }
+        $keys[$index] = $new_key;
+        return array_combine($keys, array_values($array));
     }
 
     public static function validate(Request $request, $name)
