@@ -36,19 +36,26 @@ class SchemaHelper
         return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values'));
     }
 
-    public static function renderField($name, $type, $preloaded = null, $form_values = null)
+    public static function renderField($data, $type, $preloaded = null, $form_values = null)
     {
+        if(!is_array($data)) {
+            $data = [
+                'name' => $data,
+                'label' => ucwords(str_replace('_', ' ', $data))
+            ];
+        }
+        $data['type'] = $type;
         if (isset($form_values)) {
             return view('smartschema::impl.' . $type,
                 [
-                    'field' => $name,
+                    'field' => $data,
                     'values' => $form_values,
                     'data' => isset($preloaded) ? $preloaded : null
                 ]);
         } else {
             return view('smartschema::impl.' . $type,
                 [
-                    'field' => $name,
+                    'field' => $data,
                     'data' => isset($preloaded) ? $preloaded : null
                 ]);
 
