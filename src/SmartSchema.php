@@ -39,7 +39,7 @@ class SmartSchema
         $smartModel->save();
     }
 
-    public static function initiate($table, $smartModel)
+    public static function initiate($table, SchemaHelper $smartModel)
     {
         foreach ($smartModel->getFields() as $field) {
 
@@ -102,6 +102,12 @@ class SmartSchema
             /*$smartModel->save();
        }*/
 
+            if ($field->shouldBeDeleted()) {
+                $table->dropColumn($field->getName());
+                $new_field->delete();
+                $smartModel->save();
+                continue;
+            }
 
             if ($field->isNullable()) {
                 $new_field->nullable();

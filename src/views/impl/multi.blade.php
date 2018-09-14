@@ -1,12 +1,12 @@
 <div class="form-group">
     <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
-
     <select name="{{ $field['name'] }}[]" multiple="multiple" class="form-control select2able {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}" id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help">
         @if(!isset($data) && !old($field['name']))
             <option selected disabled>Select...</option>
         @endif
         @foreach($values as $key => $label)
-            <option {{ (old($field['name'], optional($data)->{$field['name']}) == $key ? 'selected' : '') }} value="{{ $key }}">{{ $label }}</option>
+
+            <option {{ isset($multi_values) && $multi_values[ $field['name'] ]->contains($key) ? 'selected' : '' }} value="{{ $key }}">{{ $label }}</option>
         @endforeach
     </select>
 

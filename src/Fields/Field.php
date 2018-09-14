@@ -38,6 +38,7 @@ class Field
     private $validation = [];
     private $renameFrom;
     private $renameTo;
+    private $deleting;
 
     /**
      * @return bool
@@ -47,6 +48,13 @@ class Field
         return $this->fillable;
     }
 
+    public function delete() {
+        $this->deleting = true;
+    }
+
+    public function shouldBeDeleted() {
+        return $this->deleting;
+    }
 
     public function getAfter()
     {

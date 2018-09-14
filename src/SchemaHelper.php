@@ -24,7 +24,7 @@ class SchemaHelper
         return new SchemaHelper($name);
     }
 
-    public static function form($name, $action, $preloaded = null, $form_values = null, $flavour = null)
+    public static function form($name, $action, $preloaded = null, $form_values = null, $flavour = null, $multi_values = null)
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
@@ -33,7 +33,7 @@ class SchemaHelper
                 $fields[] = $loaded_field->getForms($flavour ?? 'default');
             }
         }
-        return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values'));
+        return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values', 'multi_values'));
     }
 
     public static function renderField($data, $type, $preloaded = null, $form_values = null)
@@ -62,13 +62,46 @@ class SchemaHelper
         }
     }
 
-    public static function getValidationRules($name)
+    public static function setUniqueExceptCurrent($name, $field, $value)
     {
         $loaded_fields = self::get($name)->getFields();
+        foreach ($loaded_fields as $loaded_field) {
+            if ($loaded_field->getForms() && $loaded_field->getName() == $field) {
+                $loaded_field->unique($name . ',' . $field . ',' . $value);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function getValidationRules($name, $config = null)
+    {
+        $loaded_fields = self::get($name)->getFields();
+        //dd($loaded_fields);
+
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
             if ($loaded_field->getForms()) {
+
                 $fields[$loaded_field->getName()] = $loaded_field->getValidation();
+
+                if($config) {
+                    //
+                    // Stop unique fields blocking request on edit
+                    //
+                    if(isset($config['unique_except_current'])) {
+                        foreach($config['unique_except_current'] as $col => $value) {
+                            if($col == $loaded_field->getName()) {
+                                $fields[$loaded_field->getName()] =
+                                    str_replace(
+                                        'unique:' . $name,
+                                        'unique:' . $name . ',' . $col . ',' . $value,
+                                        $loaded_field->getValidation()
+                                    );
+                            }
+                        }
+                    }
+                }
             }
         }
         return $fields;
@@ -130,10 +163,10 @@ class SchemaHelper
         return array_combine($keys, array_values($array));
     }
 
-    public static function validate(Request $request, $name)
+    public static function validate(Request $request, $name, $config = null)
     {
         return $request->validate(
-            self::getValidationRules($name)
+            self::getValidationRules($name, $config)
         );
     }
 
@@ -146,6 +179,10 @@ class SchemaHelper
             $this->load();
         }
         return $this->fields;
+    }
+
+    public function dropField($name) {
+        unset($this->fields[$name]);
     }
 
     public function timestamps()
@@ -179,6 +216,10 @@ class SchemaHelper
             $row = DB::table('schema')->where('name', $this->name)->first();
             $this->fields = unserialize($row->fields);
         }
+    }
+
+    public function delete($name) {
+        unset($this->fields[$name]);
     }
 
 

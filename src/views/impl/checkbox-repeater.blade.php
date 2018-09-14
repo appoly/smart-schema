@@ -7,7 +7,7 @@
                 <input name="{{ $field['name'] }}_{{ $key }}" type="checkbox"
                        class="form-check-input custom-control-input {{ ($errors->has($field['name']. '_' . $key)) ? ' is-invalid' : '' }}"
                        id="{{ $field['name'] }}_{{ $key }}" value="1"
-                        {{ (old($field['name']. '_' . $key, optional($data)->{$field['name']. '_' . $key})) ? 'checked' : '' }}>
+                        {{ isset($multi_values) && $multi_values[ $field['name'] ]->contains($key) ? 'checked' : '' }}>
                 <label for="{{ $field['name'] }}_{{ $key }}"
                        class="custom-control-label form-check-label">{{ $label }}</label>
             </div>
