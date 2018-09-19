@@ -24,6 +24,17 @@ class SchemaHelper
         return new SchemaHelper($name);
     }
 
+    /**
+     * Render entire basic form for a model
+     *
+     * @param $name - Table name
+     * @param $action - Action URL
+     * @param null $preloaded - Values to display in the form
+     * @param null $form_values - Options for select/multi inputs
+     * @param null $flavour
+     * @param null $multi_values
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function form($name, $action, $preloaded = null, $form_values = null, $flavour = null, $multi_values = null)
     {
         $loaded_fields = self::get($name)->getFields();
@@ -36,27 +47,38 @@ class SchemaHelper
         return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values', 'multi_values'));
     }
 
+    /**
+     * Render a form element using pre-configured options from migration
+     *
+     * @param $table_name - Table name (lowercase plural)
+     * @param $field_name - Name of field
+     * @param null $preloaded
+     * @param null $form_values
+     * @param null $flavour
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function renderConfiguredField($table_name, $field_name, $preloaded = null, $form_values = null, $flavour = null) {
         $loaded_fields = self::get($table_name)->getFields();
         $data =  $loaded_fields[$field_name]->getForms($flavour ?? 'default');
 
-        if (isset($form_values)) {
-            return view('smartschema::impl.' . $data['type'],
-                [
-                    'field' => $data,
-                    'values' => $form_values,
-                    'data' => isset($preloaded) ? $preloaded : null
-                ]);
-        } else {
-            return view('smartschema::impl.' . $data['type'],
-                [
-                    'field' => $data,
-                    'data' => isset($preloaded) ? $preloaded : null
-                ]);
-
+        if(isset($preloaded)) {
+            $preloaded = [
+                $field_name => $preloaded
+            ];
         }
+
+        self::renderField($data, $data['type'], $preloaded, $form_values);
     }
 
+    /**
+     * Render a field with full control
+     *
+     * @param $data
+     * @param $type
+     * @param null $preloaded
+     * @param null $form_values
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function renderField($data, $type, $preloaded = null, $form_values = null)
     {
         if(!is_array($data)) {
