@@ -67,7 +67,7 @@ class SchemaHelper
             ];
         }
 
-        self::renderField($data, $data['type'], $preloaded, $form_values);
+        return self::renderField($data, $data['type'], $preloaded, $form_values);
     }
 
     /**
