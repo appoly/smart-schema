@@ -36,6 +36,27 @@ class SchemaHelper
         return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values', 'multi_values'));
     }
 
+    public static function renderConfiguredField($table_name, $field_name, $preloaded = null, $form_values = null, $flavour = null) {
+        $loaded_fields = self::get($table_name)->getFields();
+        $data =  $loaded_fields[$field_name]->getForms($flavour ?? 'default');
+
+        if (isset($form_values)) {
+            return view('smartschema::impl.' . $data['type'],
+                [
+                    'field' => $data,
+                    'values' => $form_values,
+                    'data' => isset($preloaded) ? $preloaded : null
+                ]);
+        } else {
+            return view('smartschema::impl.' . $data['type'],
+                [
+                    'field' => $data,
+                    'data' => isset($preloaded) ? $preloaded : null
+                ]);
+
+        }
+    }
+
     public static function renderField($data, $type, $preloaded = null, $form_values = null)
     {
         if(!is_array($data)) {
