@@ -12,7 +12,7 @@
                placeholder="{{ $field['placeholder'] }}"
                @endif
                aria-describedby="{{ $field['name'] }}Help"
-               value="{{ old($field['name'], optional($data)->{$field['name']}) }}">
+               value="{{ old($field['name'], optional($data)[$field['name']]) }}">
         @if(isset($field['append']))
             <div class="input-group-append">
                 <span class="input-group-text">{{ $field['append'] }}</span>

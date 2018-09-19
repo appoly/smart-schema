@@ -6,7 +6,7 @@
             id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help">
         @if(isset($values))
             @foreach($values as $key => $label)
-                <option {{ (old($field['name'], optional($data)->{$field['name']}) == $label ? 'selected' : '') }} value="{{ $label }}">{{ $label }}</option>
+                <option {{ (old($field['name'], optional($data)[$field['name']]) == $label ? 'selected' : '') }} value="{{ $label }}">{{ $label }}</option>
             @endforeach
         @endif
     </select>

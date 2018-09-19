@@ -15,7 +15,7 @@
                 </option>
             @endif
             @foreach($values as $key => $label)
-                <option {{ (old($field['name'], optional($data)->{$field['name']}) == $key ? 'selected' : '') }} value="{{ $key }}">{{ $label }}</option>
+                <option {{ (old($field['name'], optional($data)[$field['name']]) == $key ? 'selected' : '') }} value="{{ $key }}">{{ $label }}</option>
             @endforeach
         </select>
 
