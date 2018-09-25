@@ -1,3 +1,7 @@
+<?php
+$old_value = old($field['name'], isset($config['initial'][$field['name']]) ? $config['initial'][$field['name']] : '');
+?>
+
 <div class="form-group">
     <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
     <div class="input-group">
@@ -12,7 +16,7 @@
                placeholder="{{ $field['placeholder'] }}"
                @endif
                aria-describedby="{{ $field['name'] }}Help"
-               value="{{ old($field['name'], optional($data)[$field['name']]) }}">
+               value="{{ $old_value }}">
         @if(isset($field['append']))
             <div class="input-group-append">
                 <span class="input-group-text">{{ $field['append'] }}</span>

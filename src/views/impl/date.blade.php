@@ -2,7 +2,7 @@
     <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
     <?php
-    $old_val = old($field['name'], optional($data)[$field['name']]);
+    $old_val = old($field['name'], isset($config['initial'][$field['name']]) ? $config['initial'][$field['name']] : '');
     if($old_val instanceof \Carbon\Carbon)
         $old_val = $old_val->format('d/m/Y');
     ?>

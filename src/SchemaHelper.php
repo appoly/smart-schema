@@ -29,22 +29,19 @@ class SchemaHelper
      *
      * @param $name - Table name
      * @param $action - Action URL
-     * @param null $preloaded - Values to display in the form
-     * @param null $form_values - Options for select/multi inputs
-     * @param null $flavour
-     * @param null $multi_values
+     * @param null $config - initial, flavour, select_options, multiselect_selected_values
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function form($name, $action, $preloaded = null, $form_values = null, $flavour = null, $multi_values = null)
+    public static function form($name, $action, $config = null)
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
-            if ($loaded_field->getForms($flavour ?? 'default')) {
-                $fields[] = $loaded_field->getForms($flavour ?? 'default');
+            if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default')) {
+                $fields[] = $loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default');
             }
         }
-        return view('smartschema::form', compact('fields', 'action', 'preloaded', 'form_values', 'multi_values'));
+        return view('smartschema::form', compact('fields', 'action', 'config'));
     }
 
     /**
@@ -52,22 +49,25 @@ class SchemaHelper
      *
      * @param $table_name - Table name (lowercase plural)
      * @param $field_name - Name of field
-     * @param null $preloaded
-     * @param null $form_values
-     * @param null $flavour
+     * @param null $config - initial, flavour, select_options
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function renderConfiguredField($table_name, $field_name, $preloaded = null, $form_values = null, $flavour = null) {
+    public static function renderConfiguredField($table_name, $field_name, $config = null) {
         $loaded_fields = self::get($table_name)->getFields();
         $data =  $loaded_fields[$field_name]->getForms($flavour ?? 'default');
 
-        if(isset($preloaded)) {
-            $preloaded = [
-                $field_name => $preloaded
+        if(isset($config['initial'])) {
+            $config['initial'] = [
+                $field_name => $config['initial']
             ];
         }
 
-        return self::renderField($data, $data['type'], $preloaded, $form_values);
+        return self::renderField($data,
+            $data['type'],
+            [
+                'initial' => isset($config['initial']) ? $config['initial'] : null,
+                'select_options' => isset($config['select_options']) ? $config['select_options'] : null
+            ]);
     }
 
     /**
@@ -75,11 +75,10 @@ class SchemaHelper
      *
      * @param $data
      * @param $type
-     * @param null $preloaded
-     * @param null $form_values
+     * @param null $config - initial, select_values
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function renderField($data, $type, $preloaded = null, $form_values = null)
+    public static function renderField($data, $type, $config = null)
     {
         if(!is_array($data)) {
             $data = [
@@ -88,18 +87,18 @@ class SchemaHelper
             ];
         }
         $data['type'] = $type;
-        if (isset($form_values)) {
+        if (isset($config['select_options'])) {
             return view('smartschema::impl.' . $type,
                 [
                     'field' => $data,
-                    'values' => $form_values,
-                    'data' => isset($preloaded) ? $preloaded : null
+                    'values' => $config['select_options'],
+                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null
                 ]);
         } else {
             return view('smartschema::impl.' . $type,
                 [
                     'field' => $data,
-                    'data' => isset($preloaded) ? $preloaded : null
+                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null
                 ]);
 
         }
