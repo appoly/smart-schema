@@ -78,6 +78,11 @@ class Field
         return $this;
     }
 
+    public function clearRenames() {
+        unset($this->renameFrom);
+        unset($this->renameTo);
+    }
+
     /**
      * @param bool $fillable
      */
