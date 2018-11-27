@@ -380,4 +380,7 @@ class SchemaHelper
         return $field;
     }
 
+    public function softDeletes() {
+        return $this->timestamp("deleted_at");
+    }
 }
