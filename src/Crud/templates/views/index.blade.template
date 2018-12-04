@@ -5,6 +5,7 @@
     <div class="btn-group float-right">
         <a href="{{ route('%kebab_case_plural%.create') }}" class="btn btn-primary">+ New %pretty_name_singular%</a>
     </div>
+    
     <h1>%pretty_name_plural%</h1>
 
     <table class="table">
@@ -26,4 +27,5 @@
             </tr>
         @endforeach
     </table>
+
 @endsection
