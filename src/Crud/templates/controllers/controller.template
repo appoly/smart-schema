@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\%class%;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Appoly\SmartSchema\SchemaHelper;
 use Appoly\SmartSchema\SmartSchema;
-use Illuminate\Http\Request;
 
 class %class_plural%Controller extends Controller
 {
@@ -15,7 +15,8 @@ class %class_plural%Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index() 
+    {
         $%variable_plural% = %class%::all();
         return view('%kebab_case_plural%.index', compact('%variable_plural%'));
     }
@@ -25,7 +26,8 @@ class %class_plural%Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create() 
+    {
         return view('%kebab_case_plural%.create');
     }
 
@@ -35,7 +37,8 @@ class %class_plural%Controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request) 
+    {
         SchemaHelper::validate($request, '%table%');
         %class%::create($request->all());
         return redirect()->route('%kebab_case_plural%.index')->with('success', __('Created.'));
