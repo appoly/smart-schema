@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\%class%;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Appoly\SmartSchema\SchemaHelper;
 use Appoly\SmartSchema\SmartSchema;
+use Appoly\SmartSchema\SchemaHelper;
+use App\Http\Controllers\Controller;
 
 class %class_plural%Controller extends Controller
 {
