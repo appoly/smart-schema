@@ -92,13 +92,15 @@ class SchemaHelper
                 [
                     'field' => $data,
                     'values' => $config['select_options'],
-                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null
+                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null,
+                    'config' => $config
                 ]);
         } else {
             return view('smartschema::impl.' . $type,
                 [
                     'field' => $data,
-                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null
+                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null,
+                    'config' => $config
                 ]);
 
         }
