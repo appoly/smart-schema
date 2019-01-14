@@ -17,10 +17,7 @@
             $old_value = old($field['name'],
                         isset($config['initial'][$field['name']]) ? $config['initial'][$field['name']] : '');
         ?>
-        @foreach($config['select_options'][$field['name']] as $key => $label)
-
-
-
+         @foreach($config['select_options'][$field['name']] ?? $config['select_options'] as $key => $label)
             <option {{ ($old_value == $key ? 'selected' : ' ') }} value="{{ $key }}">{{ $label }}</option>
         @endforeach
     </select>
