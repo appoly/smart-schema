@@ -41,16 +41,9 @@ class SmartSchema
 
     public static function initiate($table, SchemaHelper $smartModel)
     {
-
-        //dd($smartModel->getFields());
         foreach ($smartModel->getFields() as $field) {
 
             $new_field = SmartSchema::databaseField($field, $table);
-            /*if(!$field->exists) {
-                $field->exists = true;*/
-
-            /*$smartModel->save();
-       }*/
 
             if ($field->shouldBeDeleted()) {
                 $table->dropColumn($field->getName());
@@ -67,7 +60,11 @@ class SmartSchema
                 $new_field->nullable();
             }
 
-            if ($field->isUnique() && !$field->exists) {
+            if ($field->isUnique() && !$new_field) {
+                $new_field = SmartSchema::databaseField($field, $table, true);
+                if($new_field)
+                    $new_field->unique();
+            } elseif ($field->isUnique() && !$field->exists) {
                 $new_field->unique();
             }
 
@@ -75,7 +72,7 @@ class SmartSchema
                 $new_field->rememberToken();
             }
 
-            if ($field->isNullable() && !$new_field) {
+            if ($field->hasDefault() && !$new_field) {
                 $new_field = SmartSchema::databaseField($field, $table, true);
                 if($new_field)
                     $new_field->default($field->getDefault())->change();
@@ -123,7 +120,8 @@ class SmartSchema
                     $new_field = $table->timestamps();
                 break;
             case 'boolean':
-                $new_field = $table->boolean($field->getName());
+                if (!$field->exists || $force)
+                    $new_field = $table->boolean($field->getName());
                 break;
             case 'char':
                 if (!$field->exists || $force)
