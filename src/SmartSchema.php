@@ -41,76 +41,14 @@ class SmartSchema
 
     public static function initiate($table, SchemaHelper $smartModel)
     {
+
+        //dd($smartModel->getFields());
         foreach ($smartModel->getFields() as $field) {
 
-            $new_field = null;
+            $new_field = SmartSchema::databaseField($field, $table);
             /*if(!$field->exists) {
                 $field->exists = true;*/
-            switch ($field->getType()) {
-                case 'text':
-                    if (!$field->exists)
-                        $new_field = $table->text($field->getName());
-                    break;
-                case 'increments':
-                    if (!$field->exists)
-                        $new_field = $table->increments($field->getName());
-                    break;
-                case 'integer':
-                    if (!$field->exists)
-                        $new_field = $table->integer($field->getName());
-                    break;
-                case 'timestamps':
-                    if (!$field->exists)
-                        $new_field = $table->timestamps();
-                    break;
-                case 'boolean':
-                    $new_field = $table->boolean($field->getName());
-                    break;
-                case 'char':
-                    if (!$field->exists)
-                        $new_field = $table->char($field->getName());
-                    break;
-                case 'date':
-                    if (!$field->exists)
-                        $new_field = $table->date($field->getName());
-                    break;
-                case 'dateTime':
-                    if (!$field->exists)
-                        $new_field = $table->dateTime($field->getName());
-                    break;
-                case 'double':
-                    if (!$field->exists)
-                        $new_field = $table->double($field->getName());
-                    break;
-                case 'float':
-                    if (!$field->exists)
-                        $new_field = $table->float($field->getName());
-                    break;
-                case 'morphs':
-                    if (!$field->exists)
-                        $new_field = $table->morphs($field->getName());
-                    break;
-                case 'rememberToken':
-                    if (!$field->exists)
-                        $new_field = $table->rememberToken();
-                    break;
-                case 'string':
-                    if (!$field->exists)
-                        $new_field = $table->string($field->getName());
-                    break;
-                case 'time':
-                    if (!$field->exists)
-                        $new_field = $table->time($field->getName());
-                    break;
-                case 'timestamp':
-                    if (!$field->exists)
-                        $new_field = $table->timeStamp($field->getName());
-                    break;
-                case 'binary':
-                    if (!$field->exists)
-                        $new_field = $table->binary($field->getName());
-                    break;
-            }
+
             /*$smartModel->save();
        }*/
 
@@ -121,7 +59,11 @@ class SmartSchema
                 continue;
             }
 
-            if ($field->isNullable()) {
+            if ($field->isNullable() && !$new_field) {
+                $new_field = SmartSchema::databaseField($field, $table, true);
+                if($new_field)
+                    $new_field->nullable()->change();
+            } elseif ($field->isNullable()) {
                 $new_field->nullable();
             }
 
@@ -133,9 +75,14 @@ class SmartSchema
                 $new_field->rememberToken();
             }
 
-            if ($field->hasDefault()) {
+            if ($field->isNullable() && !$new_field) {
+                $new_field = SmartSchema::databaseField($field, $table, true);
+                if($new_field)
+                    $new_field->default($field->getDefault())->change();
+            } elseif ($field->hasDefault()) {
                 $new_field->default($field->getDefault());
             }
+
 
             if ($field->exists && $new_field) {
                 $new_field->change();
@@ -154,5 +101,76 @@ class SmartSchema
 
             $field->exists = true;
         }
+    }
+
+    private static function databaseField($field, $table, $force = false) {
+        $new_field = null;
+        switch ($field->getType()) {
+            case 'text':
+                if (!$field->exists || $force)
+                    $new_field = $table->text($field->getName());
+                break;
+            case 'increments':
+                if (!$field->exists || $force)
+                    $new_field = $table->increments($field->getName());
+                break;
+            case 'integer':
+                if (!$field->exists || $force)
+                    $new_field = $table->integer($field->getName());
+                break;
+            case 'timestamps':
+                if (!$field->exists)
+                    $new_field = $table->timestamps();
+                break;
+            case 'boolean':
+                $new_field = $table->boolean($field->getName());
+                break;
+            case 'char':
+                if (!$field->exists || $force)
+                    $new_field = $table->char($field->getName());
+                break;
+            case 'date':
+                if (!$field->exists || $force)
+                    $new_field = $table->date($field->getName());
+                break;
+            case 'dateTime':
+                if (!$field->exists || $force)
+                    $new_field = $table->dateTime($field->getName());
+                break;
+            case 'double':
+                if (!$field->exists || $force)
+                    $new_field = $table->double($field->getName());
+                break;
+            case 'float':
+                if (!$field->exists || $force)
+                    $new_field = $table->float($field->getName());
+                break;
+            case 'morphs':
+                if (!$field->exists || $force)
+                    $new_field = $table->morphs($field->getName());
+                break;
+            case 'rememberToken':
+                if (!$field->exists)
+                    $new_field = $table->rememberToken();
+                break;
+            case 'string':
+                if (!$field->exists || $force)
+                    $new_field = $table->string($field->getName());
+                break;
+            case 'time':
+                if (!$field->exists || $force)
+                    $new_field = $table->time($field->getName());
+                break;
+            case 'timestamp':
+                if (!$field->exists)
+                    $new_field = $table->timeStamp($field->getName());
+                break;
+            case 'binary':
+                if (!$field->exists || $force)
+                    $new_field = $table->binary($field->getName());
+                break;
+        }
+
+        return $new_field;
     }
 }
