@@ -48,7 +48,8 @@ class SmartSchema
                 $field->exists = true;*/
             switch ($field->getType()) {
                 case 'text':
-                    $new_field = $table->text($field->getName());
+                    if (!$field->exists)
+                        $new_field = $table->text($field->getName());
                     break;
                 case 'increments':
                     if (!$field->exists)
