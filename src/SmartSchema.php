@@ -61,9 +61,10 @@ class SmartSchema
             }
 
             if ($field->isUnique() && !$new_field) {
-                $new_field = SmartSchema::databaseField($field, $table, true);
+                //todo: check if key alredy exists
+                /*$new_field = SmartSchema::databaseField($field, $table, true);
                 if($new_field)
-                    $new_field->unique();
+                    $new_field->unique();*/
             } elseif ($field->isUnique() && !$field->exists) {
                 $new_field->unique();
             }
