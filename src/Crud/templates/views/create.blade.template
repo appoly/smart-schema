@@ -8,7 +8,9 @@
                     <div class="card-header">New %pretty_name_singular%</div>
 
                     <div class="card-body">
-                        {!! \Appoly\SmartSchema\SchemaHelper::form('%table%', route('%kebab_case_plural%.store'), null, isset($form_values) ? $form_values : null) !!}
+                        {!! \Appoly\SmartSchema\SchemaHelper::form('%table%', route('%kebab_case_plural%.store'), [
+                            'select_options' => isset($select_options) ? $select_options : null
+                        ]) !!}
                     </div>
                 </div>
             </div>
