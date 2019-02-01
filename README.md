@@ -2,6 +2,16 @@
 
 Tired of repeating yourself? This package centralises everything to do with fields.
 
+
+[Introduction](#introduction)
+[Field Types](#field-types)
+[Virtual Fields](#virtual-fields)
+[Validation Rules](#validation-rules)
+[Model Attributes](#model-attributes)
+[Forms](#forms)
+[Code Generation](#code-generation)
+
+
 ## Quick Usage
 
 
@@ -35,29 +45,55 @@ SmartSchema::create('sites', function ($table) {
 
 
 ### Field Types
+Standard field types area available.
 ```
-$table->text("name")`
+$table->text("name")
 $table->integer("user_id")
 $table->float("latitude")
 ``` 
 etc...
 
+#### Virtual Fields
+In some cases, we may want fields in a form that don't correspond directy to our database tables.
+
+We can then use:
+```
+$table->virtual("slot")->forms(...
+```
+
 ### Validation Rules
+These can be chained to a field creation in your migration.
+
+Example:
+```
+$table->text("email")->required()->email();
+```
+
+Available rules:
 ```
 ->unique()
 ->required()
+->email()
+->max( val )
+->min( val )
 ```
- etc...
+
+Custom validation rules can be added with:
+```
+->addRule( rule )
+```
+
 
 When storing the object in your controller, the validation helper should be called with the object type:
 ```
 public function store(Request $request) {
     SchemaHelper::validate($request, 'sites');
-    Site::create($request->all());
+    
+    // Process the request
+    // ...
 }
 ```
 
-includes `->nullable()` for db schema
 
 ### Model attributes
 `fillable()`
@@ -69,7 +105,7 @@ Casts:
 
 ```
 
-Model must have the `SmartField` trait to use `fillable()` or any of the attribute casts.
+Model __must__ have the `SmartField` trait to use `fillable()` or any of the attribute casts.
 ```
 class User extends Model
 {
@@ -89,9 +125,37 @@ In migration, use `->forms([...` to show a field in the auto-generated forms:
 ])
 ```
 
-To render a form:
+To render a basic form:
 ```
 {!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store')) !!}
+```
+
+Multiple choice form fields such as selects and radio buttons will need a set of options.
+
+In the case of the following field:
+```
+$table->id("role")
+        ->forms([
+            'type' => 'select', // or 'type' => 'radio'
+            'label' => 'Role'
+        ]);
+```
+
+Options can be passed like so:
+```
+{!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store'), [
+    'select_options' => ['User', 'Admin']
+]) !!}
+```
+
+Or with keys
+```
+{!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store'), [
+    'select_options' => [
+        10001 => 'User', 
+        20001 => 'Admin'
+    ]
+]) !!}
 ```
 
 ## Code Generation
