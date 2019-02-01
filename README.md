@@ -23,7 +23,7 @@ Tired of repeating yourself? This package centralises everything to do with fiel
 Add to `composer.json`:
 
 ```
-"appoly/smart-schema": "[version]",
+"appoly/smart-schema": "^0.4.11",
 ```
 
 ## Introduction
