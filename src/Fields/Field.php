@@ -238,7 +238,18 @@ class Field
         $this->validation[] = 'min:' . $min;
         return $this;
     }
-
+    
+    public function numeric()
+    {
+        $this->validation[] = 'numeric';
+        return $this;
+    }
+    
+    public function addRule($rule)
+    {
+        $this->validation[] = $rule;
+        return $this;
+    }
 
     //
     // Mutators
