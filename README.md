@@ -4,17 +4,27 @@ Tired of repeating yourself? This package centralises everything to do with fiel
 
 
 [Introduction](#introduction)
+
 [Field Types](#field-types)
+
 [Virtual Fields](#virtual-fields)
+
 [Validation Rules](#validation-rules)
+
 [Model Attributes](#model-attributes)
+
 [Forms](#forms)
+
 [Code Generation](#code-generation)
 
 
 ## Quick Usage
 
+Add to `composer.json`:
 
+```
+"appoly/smart-schema": "[version]",
+```
 
 ## Introduction
 
