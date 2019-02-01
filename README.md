@@ -2,20 +2,14 @@
 
 Tired of repeating yourself? This package centralises everything to do with fields.
 
-
-[Introduction](#introduction)
-
-[Field Types](#field-types)
-
-[Virtual Fields](#virtual-fields)
-
-[Validation Rules](#validation-rules)
-
-[Model Attributes](#model-attributes)
-
-[Forms](#forms)
-
-[Code Generation](#code-generation)
+Navigation
+- [Introduction](#introduction)
+- [Field Types](#field-types)
+- [Virtual Fields](#virtual-fields)
+- [Validation Rules](#validation-rules)
+- [Model Attributes](#model-attributes)
+- [Forms](#forms)
+- [Code Generation](#code-generation)
 
 
 ## Quick Usage
