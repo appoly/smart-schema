@@ -227,6 +227,10 @@ class SchemaHelper
 
     public function dropField($name) {
         unset($this->fields[$name]);
+
+        Schema::table($this->name, function (Blueprint $table) use ($name) {
+            $table->dropColumn($name);
+        });
     }
 
     public function timestamps()
