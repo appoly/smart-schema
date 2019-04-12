@@ -1,5 +1,7 @@
 <div class="form-group">
-    <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @if(isset($field['label']))
+        <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @endif
     <?php
     $old_value = old($field['name'],
         isset($config['initial'][$field['name']]) ? $config['initial'][$field['name']] : '');

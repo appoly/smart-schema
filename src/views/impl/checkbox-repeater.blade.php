@@ -1,5 +1,7 @@
 <div class="mb-3">
-    <label>{{ $field['label'] }}</label>
+    @if(isset($field['label']))
+        <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @endif
 
     @foreach($config['select_options'][ $field['name'] ] as $key => $label)
         <div class="form-check">

@@ -1,5 +1,7 @@
 <div class="form-group">
-    <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @if(isset($field['label']))
+        <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @endif
 
     <select name="{{ $field['name'] }}"
             class="form-control taggable {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"

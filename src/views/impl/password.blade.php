@@ -3,7 +3,9 @@ $old_value = old($field['name'], isset($config['initial'][$field['name']]) ? $co
 ?>
 
 <div class="form-group">
-    <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @if(isset($field['label']))
+        <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+    @endif
     <div class="input-group">
         @if(isset($field['prepend']))
             <div class="input-group-prepend">
