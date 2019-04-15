@@ -207,9 +207,13 @@ class Field
         return implode('|', $this->validation);
     }
 
-    public function required()
+    public function required($required = true)
     {
-        $this->validation[] = 'required';
+        if (!$required && ($key = array_search('required', $this->validation)) !== false) {
+            unset($this->validation[$key]);
+        } else {
+            $this->validation[] = 'required';
+        }
         return $this;
     }
 
