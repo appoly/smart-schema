@@ -17,7 +17,7 @@ Navigation
 Add to `composer.json`:
 
 ```
-"appoly/smart-schema": "^0.4.11",
+"appoly/smart-schema": "^0.6.3",
 ```
 
 ## Introduction
