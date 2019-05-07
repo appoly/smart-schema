@@ -17,7 +17,7 @@ Navigation
 Add to `composer.json`:
 
 ```
-"appoly/smart-schema": "^0.4.11",
+"appoly/smart-schema": "^0.6.3",
 ```
 
 ## Introduction
@@ -148,7 +148,9 @@ $table->id("role")
 Options can be passed like so:
 ```
 {!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store'), [
-    'select_options' => ['User', 'Admin']
+    'select_options' => [
+        'role_id' => ['User', 'Admin']
+    ]
 ]) !!}
 ```
 
@@ -156,8 +158,10 @@ Or with keys
 ```
 {!! \Appoly\SmartSchema\SchemaHelper::form('sites', route('sites.store'), [
     'select_options' => [
-        10001 => 'User', 
-        20001 => 'Admin'
+        'role_id' => [
+            10001 => 'User', 
+            20001 => 'Admin'
+        ]
     ]
 ]) !!}
 ```
