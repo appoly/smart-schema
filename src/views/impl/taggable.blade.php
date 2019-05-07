@@ -5,7 +5,8 @@
 
     <select name="{{ $field['name'] }}"
             class="form-control taggable {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
-            id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help">
+            id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help"
+            {{ isset($config['readonly']) ? 'disabled' : '' }}>
         @if(isset($config['multiselect_values']))
             @foreach($config['multiselect_values'] as $key => $label)
                 <option {{ (old($field['name'], optional($config['initial'])[$field['name']]) == $label ? 'selected' : '') }} value="{{ $label }}">{{ $label }}</option>

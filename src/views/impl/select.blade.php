@@ -5,7 +5,8 @@
 
     <select name="{{ $field['name'] }}"
             class="form-control select2able {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
-            id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help">
+            id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help"
+            {{ isset($config['readonly']) ? 'disabled' : '' }}>
         @if(!isset($config['initial']) && !old($field['name']))
             <option selected disabled>
                 @if(!isset($field['placeholder']))

@@ -10,7 +10,8 @@
                 <input name="{{ $field['name'] }}[{{ $key }}]" type="checkbox"
                        class="form-check-input custom-control-input {{ ($errors->has($field['name']. '_' . $key)) ? ' is-invalid' : '' }}"
                        id="{{ $field['name'] }}_{{ $key }}" value="1"
-                        {{ isset($config['initial'][ $field['name'] ]) && $config['initial'][ $field['name']][$key] == 1 ? 'checked selected' : '' }}>
+                        {{ isset($config['initial'][ $field['name'] ]) && $config['initial'][ $field['name']][$key] == 1 ? 'checked selected' : '' }}
+                        {{ isset($config['readonly']) ? 'disabled' : '' }}>
                 <label for="{{ $field['name'] }}_{{ $key }}"
                        class="custom-control-label form-check-label">{{ $label }}</label>
             </div>

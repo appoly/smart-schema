@@ -10,7 +10,8 @@
     <textarea name="{{ $field['name'] }}"
               class="form-control {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
               id="{{ $field['name'] }}"
-              aria-describedby="{{ $field['name'] }}Help">{{ $old_value }}</textarea>
+              aria-describedby="{{ $field['name'] }}Help"
+              {{ isset($config['readonly']) ? 'readonly' : '' }}>{{ $old_value }}</textarea>
 
     @if(isset($field['help']))
         <small id="{{ $field['name'] }}Help" class="form-text text-muted">{{ $field['help'] }}</small>

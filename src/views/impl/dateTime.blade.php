@@ -12,7 +12,7 @@
 
   <div class="input-group datepicker" id="{{ $field['name'] }}" data-target-input="nearest">
     <input type="text" name="{{ $field['name'] }}" value="{{ $old_val }}" class="form-control datetimepicker-input {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
-      data-target="#{{ $field['name'] }}" />
+      data-target="#{{ $field['name'] }}" {{ isset($config['readonly']) ? 'readonly' : '' }} />
     <div class="input-group-append" data-target="#{{ $field['name'] }}" data-toggle="datetimepicker">
       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
     </div>

@@ -8,7 +8,12 @@
     ?>
     @foreach($config['select_options'][$field['name']] ?? $config['select_options'] as $key => $label)
         <div class="custom-control custom-radio">
-            <input type="radio" id="{{ $field['name'] }}-{{ $key }}" name="{{ $field['name'] }}" value="{{ $key }}" class="custom-control-input" {{ ($old_value == $key ? 'selected checked' : ' ') }}>
+            <input
+                type="radio"
+                id="{{ $field['name'] }}-{{ $key }}"
+                name="{{ $field['name'] }}" value="{{ $key }}"
+                class="custom-control-input" {{ ($old_value == $key ? 'selected checked' : ' ') }}>
+                {{ isset($config['readonly']) ? 'disabled' : '' }}>
             <label class="custom-control-label" for="{{ $field['name'] }}-{{ $key }}">{{ $label }}</label>
         </div>
     @endforeach

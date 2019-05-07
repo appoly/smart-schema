@@ -18,7 +18,8 @@ $old_value = old($field['name'], isset($config['initial'][$field['name']]) ? $co
                placeholder="{{ $field['placeholder'] }}"
                @endif
                aria-describedby="{{ $field['name'] }}Help"
-               value="{{ $old_value }}">
+               value="{{ $old_value }}"
+               {{ isset($config['readonly']) ? 'readonly' : '' }}>
         @if(isset($field['append']))
             <div class="input-group-append">
                 <span class="input-group-text">{{ $field['append'] }}</span>
