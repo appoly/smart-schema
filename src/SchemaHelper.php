@@ -67,7 +67,7 @@ class SchemaHelper
             [
                 'initial' => isset($config['initial']) ? $config['initial'] : null,
                 'select_options' => isset($config['select_options']) ? $config['select_options'] : null,
-                'readonly' => isset($config['readonly']) ? true : false,
+                'readonly' => isset($config['readonly']) ? $config['readonly'] : null,
             ]);
     }
 
