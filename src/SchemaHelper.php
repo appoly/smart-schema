@@ -29,7 +29,7 @@ class SchemaHelper
      *
      * @param $name - Table name
      * @param $action - Action URL
-     * @param null $config - initial, flavour, select_options, multiselect_selected_values, readonly
+     * @param null $config - initial, flavour, select_options, multiselect_selected_values, readonly, format
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public static function form($name, $action, $config = null)
@@ -49,7 +49,7 @@ class SchemaHelper
      *
      * @param $table_name - Table name (lowercase plural)
      * @param $field_name - Name of field
-     * @param null $config - initial, flavour, select_options, readonly
+     * @param null $config - initial, flavour, select_options, readonly, format
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public static function renderConfiguredField($table_name, $field_name, $config = null) {
@@ -68,6 +68,7 @@ class SchemaHelper
                 'initial' => isset($config['initial']) ? $config['initial'] : null,
                 'select_options' => isset($config['select_options']) ? $config['select_options'] : null,
                 'readonly' => isset($config['readonly']) ? $config['readonly'] : null,
+                'format' => isset($config['format']) ? $config['format'] : null,
             ]);
     }
 

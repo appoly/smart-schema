@@ -5,8 +5,9 @@
 
     <?php
     $old_val = old($field['name'], isset($config['initial'][$field['name']]) ? $config['initial'][$field['name']] : '');
+
     if($old_val instanceof \Carbon\Carbon)
-        $old_val = $old_val->format('d/m/Y');
+        $old_val = $old_val->format(isset($config['format']) ? $config['format'] : 'd/m/Y');
     ?>
 
     <div class="input-group datepicker" id="{{ $field['name'] }}" data-target-input="nearest">
