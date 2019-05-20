@@ -9,9 +9,7 @@
         id="{{ $field['name'] }}"
         aria-describedby="{{ $field['name'] }}Help"
         {{ isset($config['readonly']) ? 'disabled' : '' }}>
-        @if(!isset($config['multiselect_selected_values'][ $field['name'] ]) && !old($field['name']))
-            <option selected disabled>Select...</option>
-        @endif
+        
         @foreach($config['select_options'][ $field['name'] ] as $key => $label)
 
             <option {{ isset($config['multiselect_values'][ $field['name'] ]) && $config['multiselect_values'][ $field['name'] ]->contains($key) ? 'selected' : '' }} value="{{ $key }}">{{ $label }}</option>
