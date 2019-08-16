@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Schema;
 
 class SmartSchema
 {
+
+    public static $table_data = [];
+
+    
     public static function create($table, $callback)
     {
         $smartModel = new SchemaHelper($table);
