@@ -2,8 +2,8 @@
 
 namespace Appoly\SmartSchema;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\ServiceProvider;
 use Appoly\SmartSchema\Console\Commands\GenerateCrud;
 use Appoly\SmartSchema\Console\Commands\RegenerateSchema;
 
@@ -16,7 +16,6 @@ class FormsProvider extends ServiceProvider
      */
     public function boot()
     {
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 RegenerateSchema::class,

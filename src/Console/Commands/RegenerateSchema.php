@@ -2,8 +2,8 @@
 
 namespace Appoly\SmartSchema\Console\Commands;
 
-use Appoly\SmartSchema\SchemaHelper;
 use Illuminate\Console\Command;
+use Appoly\SmartSchema\SchemaHelper;
 
 class RegenerateSchema extends Command
 {
@@ -20,7 +20,6 @@ class RegenerateSchema extends Command
      * @var string
      */
     protected $description = 'Generates/regenerates tables';
-
 
     /**
      * Create a new command instance.

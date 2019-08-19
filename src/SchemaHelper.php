@@ -10,7 +10,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class SchemaHelper
 {
-
     private $fields = [];
     private $name;
 
@@ -21,11 +20,11 @@ class SchemaHelper
 
     public static function get($name)
     {
-        return new SchemaHelper($name);
+        return new self($name);
     }
 
     /**
-     * Render entire basic form for a model
+     * Render entire basic form for a model.
      *
      * @param $name - Table name
      * @param $action - Action URL
@@ -41,24 +40,26 @@ class SchemaHelper
                 $fields[] = $loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default');
             }
         }
+
         return view('smartschema::form', compact('fields', 'action', 'config'));
     }
 
     /**
-     * Render a form element using pre-configured options from migration
+     * Render a form element using pre-configured options from migration.
      *
      * @param $table_name - Table name (lowercase plural)
      * @param $field_name - Name of field
      * @param null $config - initial, flavour, select_options, readonly, format
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function renderConfiguredField($table_name, $field_name, $config = null) {
+    public static function renderConfiguredField($table_name, $field_name, $config = null)
+    {
         $loaded_fields = self::get($table_name)->getFields();
-        $data =  $loaded_fields[$field_name]->getForms($flavour ?? 'default');
+        $data = $loaded_fields[$field_name]->getForms($flavour ?? 'default');
 
-        if(isset($config['initial'])) {
+        if (isset($config['initial'])) {
             $config['initial'] = [
-                $field_name => $config['initial']
+                $field_name => $config['initial'],
             ];
         }
 
@@ -73,7 +74,7 @@ class SchemaHelper
     }
 
     /**
-     * Render a field with full control
+     * Render a field with full control.
      *
      * @param $data
      * @param $type
@@ -82,29 +83,28 @@ class SchemaHelper
      */
     public static function renderField($data, $type, $config = null)
     {
-        if(!is_array($data)) {
+        if (! is_array($data)) {
             $data = [
                 'name' => $data,
-                'label' => ucwords(str_replace('_', ' ', $data))
+                'label' => ucwords(str_replace('_', ' ', $data)),
             ];
         }
         $data['type'] = $type;
         if (isset($config['select_options'])) {
-            return view('smartschema::impl.' . $type,
+            return view('smartschema::impl.'.$type,
                 [
                     'field' => $data,
                     'values' => $config['select_options'],
-                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null,
-                    'config' => $config
+                    'data' => isset($config) && isset($config['initial']) ? $config['initial'] : null,
+                    'config' => $config,
                 ]);
         } else {
-            return view('smartschema::impl.' . $type,
+            return view('smartschema::impl.'.$type,
                 [
                     'field' => $data,
-                    'data' => isset($config) && isset($config['initial']) ? $config['initial']: null,
-                    'config' => $config
+                    'data' => isset($config) && isset($config['initial']) ? $config['initial'] : null,
+                    'config' => $config,
                 ]);
-
         }
     }
 
@@ -113,10 +113,12 @@ class SchemaHelper
         $loaded_fields = self::get($name)->getFields();
         foreach ($loaded_fields as $loaded_field) {
             if ($loaded_field->getForms() && $loaded_field->getName() == $field) {
-                $loaded_field->unique($name . ',' . $field . ',' . $value);
+                $loaded_field->unique($name.','.$field.','.$value);
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -128,20 +130,19 @@ class SchemaHelper
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
             if ($loaded_field->getForms()) {
-
                 $fields[$loaded_field->getName()] = $loaded_field->getValidation();
 
-                if($config) {
+                if ($config) {
                     //
                     // Stop unique fields blocking request on edit
                     //
-                    if(isset($config['unique_except_current'])) {
-                        foreach($config['unique_except_current'] as $col => $value) {
-                            if($col == $loaded_field->getName()) {
+                    if (isset($config['unique_except_current'])) {
+                        foreach ($config['unique_except_current'] as $col => $value) {
+                            if ($col == $loaded_field->getName()) {
                                 $fields[$loaded_field->getName()] =
                                     str_replace(
-                                        'unique:' . $name,
-                                        'unique:' . $name . ',' . $col . ',' . $value,
+                                        'unique:'.$name,
+                                        'unique:'.$name.','.$col.','.$value,
                                         $loaded_field->getValidation()
                                     );
                             }
@@ -150,6 +151,7 @@ class SchemaHelper
                 }
             }
         }
+
         return $fields;
     }
 
@@ -162,9 +164,9 @@ class SchemaHelper
                 $fields[] = $loaded_field->getName();
             }
         }
+
         return array_values($fields);
     }
-
 
     public static function getCasts($name)
     {
@@ -175,15 +177,17 @@ class SchemaHelper
                 $fields[$loaded_field->getName()] = $loaded_field->getCast();
             }
         }
+
         return $fields;
     }
 
     public function field($name)
     {
-        if (!isset($this->fields[$name])) {
+        if (! isset($this->fields[$name])) {
             $this->fields[$name] = new Field();
             $this->fields[$name]->setName($name);
         }
+
         return $this->fields[$name];
     }
 
@@ -197,15 +201,18 @@ class SchemaHelper
             $field = $this->field($to);
         }
         $this->fields[$to]->renameColumn($from, $to);
+
         return $this->fields[$to];
     }
 
-    private function replace_key($array, $old_key, $new_key) {
+    private function replace_key($array, $old_key, $new_key)
+    {
         $keys = array_keys($array);
         if (false === $index = array_search($old_key, $keys)) {
             throw new Exception(sprintf('Key "%s" does not exit', $old_key));
         }
         $keys[$index] = $new_key;
+
         return array_combine($keys, array_values($array));
     }
 
@@ -221,13 +228,15 @@ class SchemaHelper
      */
     public function getFields(): array
     {
-        if (sizeof($this->fields) == 0) {
+        if (count($this->fields) == 0) {
             $this->load();
         }
+
         return $this->fields;
     }
 
-    public function dropField($name) {
+    public function dropField($name)
+    {
         unset($this->fields[$name]);
     }
 
@@ -239,7 +248,7 @@ class SchemaHelper
 
     public function save()
     {
-        if (!Schema::hasTable('schema')) {
+        if (! Schema::hasTable('schema')) {
             Schema::create('schema', function (Blueprint $table) {
                 $table->string('name');
                 $table->unique('name');
@@ -264,10 +273,10 @@ class SchemaHelper
         }
     }
 
-    public function delete($name) {
+    public function delete($name)
+    {
         unset($this->fields[$name]);
     }
-
 
     //
     // Quick field generators
@@ -276,6 +285,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('boolean');
+
         return $field;
     }
 
@@ -283,6 +293,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('increments');
+
         return $field;
     }
 
@@ -290,6 +301,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('char');
+
         return $field;
     }
 
@@ -297,6 +309,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('date');
+
         return $field;
     }
 
@@ -304,6 +317,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('dateTime');
+
         return $field;
     }
 
@@ -311,6 +325,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('double');
+
         return $field;
     }
 
@@ -318,6 +333,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('float');
+
         return $field;
     }
 
@@ -325,6 +341,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('integer');
+
         return $field;
     }
 
@@ -332,6 +349,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('morphs');
+
         return $field;
     }
 
@@ -339,6 +357,7 @@ class SchemaHelper
     {
         $field = $this->field('rememberToken');
         $field->setType('rememberToken');
+
         return $field;
     }
 
@@ -346,6 +365,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('string');
+
         return $field;
     }
 
@@ -353,6 +373,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('text');
+
         return $field;
     }
 
@@ -360,6 +381,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('time');
+
         return $field;
     }
 
@@ -367,6 +389,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('timestamp');
+
         return $field;
     }
 
@@ -374,6 +397,7 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('binary');
+
         return $field;
     }
 
@@ -381,10 +405,12 @@ class SchemaHelper
     {
         $field = $this->field($name);
         $field->setType('virtual');
+
         return $field;
     }
 
-    public function softDeletes() {
-        return $this->timestamp("deleted_at");
+    public function softDeletes()
+    {
+        return $this->timestamp('deleted_at');
     }
 }
