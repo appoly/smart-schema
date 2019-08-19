@@ -2,7 +2,6 @@
 
 namespace Appoly\SmartSchema\Fields;
 
-
 class Field
 {
     private $name;
@@ -48,11 +47,13 @@ class Field
         return $this->fillable;
     }
 
-    public function delete() {
+    public function delete()
+    {
         $this->deleting = true;
     }
 
-    public function shouldBeDeleted() {
+    public function shouldBeDeleted()
+    {
         return $this->deleting;
     }
 
@@ -75,10 +76,12 @@ class Field
     {
         $this->renameFrom = $from;
         $this->renameTo = $to;
+
         return $this;
     }
 
-    public function clearRenames() {
+    public function clearRenames()
+    {
         unset($this->renameFrom);
         unset($this->renameTo);
     }
@@ -94,6 +97,7 @@ class Field
     public function fillable()
     {
         $this->fillable = true;
+
         return $this;
     }
 
@@ -103,57 +107,65 @@ class Field
     public function getForms($flavour = null)
     {
         $flavour = $flavour ?? 'default';
-        if( isset($this->forms[ $flavour ]) )
-            return $this->forms[ $flavour ];
+        if (isset($this->forms[$flavour])) {
+            return $this->forms[$flavour];
+        }
     }
-
 
     public function forms($form_data, $flavour = null)
     {
         $form_data['name'] = $this->name;
-        $this->forms[ $flavour ?? 'default' ] = $form_data;
+        $this->forms[$flavour ?? 'default'] = $form_data;
+
         return $this;
     }
 
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
     public function increments()
     {
         $this->type = 'increments';
+
         return $this;
     }
 
     public function text()
     {
         $this->type = 'text';
+
         return $this;
     }
 
     public function timestamps()
     {
         $this->type = 'timestamps';
+
         return $this;
     }
 
     public function nullable()
     {
         $this->nullable = true;
+
         return $this;
     }
 
     public function notNullable()
     {
         $this->nullable = false;
+
         return $this;
     }
 
@@ -189,7 +201,6 @@ class Field
         return $this->type;
     }
 
-
     public function getDefault()
     {
         return $this->default;
@@ -199,6 +210,7 @@ class Field
     {
         $this->hasDefault = true;
         $this->default = $default;
+
         return $this;
     }
 
@@ -209,49 +221,57 @@ class Field
 
     public function required($required = true)
     {
-        if (!$required && ($key = array_search('required', $this->validation)) !== false) {
+        if (! $required && ($key = array_search('required', $this->validation)) !== false) {
             unset($this->validation[$key]);
         } else {
             $this->validation[] = 'required';
         }
+
         return $this;
     }
 
     public function unique($table = null)
     {
         $this->unique = true;
-        if(isset($table))
-            $this->validation[] = 'unique:' . $table;
+        if (isset($table)) {
+            $this->validation[] = 'unique:'.$table;
+        }
+
         return $this;
     }
 
     public function email()
     {
         $this->validation[] = 'email';
+
         return $this;
     }
 
     public function max($max)
     {
-        $this->validation[] = 'max:' . $max;
+        $this->validation[] = 'max:'.$max;
+
         return $this;
     }
 
     public function min($min)
     {
-        $this->validation[] = 'min:' . $min;
+        $this->validation[] = 'min:'.$min;
+
         return $this;
     }
-    
+
     public function numeric()
     {
         $this->validation[] = 'numeric';
+
         return $this;
     }
-    
+
     public function addRule($rule)
     {
         $this->validation[] = $rule;
+
         return $this;
     }
 
@@ -261,72 +281,84 @@ class Field
     public function integer()
     {
         $this->cast = 'integer';
+
         return $this;
     }
 
     public function real()
     {
         $this->cast = 'real';
+
         return $this;
     }
 
     public function float()
     {
         $this->cast = 'float';
+
         return $this;
     }
 
     public function double()
     {
         $this->cast = 'double';
+
         return $this;
     }
 
     public function string()
     {
         $this->cast = 'string';
+
         return $this;
     }
 
     public function boolean()
     {
         $this->cast = 'boolean';
+
         return $this;
     }
 
     public function object()
     {
         $this->cast = 'object';
+
         return $this;
     }
 
     public function array()
     {
         $this->cast = 'array';
+
         return $this;
     }
 
     public function collection()
     {
         $this->cast = 'collection';
+
         return $this;
     }
 
     public function date()
     {
         $this->cast = 'date';
+
         return $this;
     }
 
     public function datetime()
     {
         $this->cast = 'datetime';
+
         return $this;
     }
 
     public function timestamp()
     {
         $this->cast = 'timestamp';
+
         return $this;
     }
 
@@ -357,13 +389,14 @@ class Field
     public function rememberToken()
     {
         $this->is_remember_token = true;
+
         return $this;
     }
 
     public function after($after)
     {
         $this->after = $after;
+
         return $this;
     }
-
 }

@@ -2,9 +2,9 @@
 
 namespace Appoly\SmartSchema\Console\Commands;
 
-use Appoly\SmartSchema\SchemaHelper;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
+use Appoly\SmartSchema\SchemaHelper;
 
 class GenerateCrud extends Command
 {
@@ -23,7 +23,6 @@ class GenerateCrud extends Command
     protected $description = 'Generates views';
 
     protected $replacement;
-
 
     /**
      * Create a new command instance.
@@ -64,11 +63,10 @@ class GenerateCrud extends Command
         //SchemaHelper::get($this->argument('model_name'))->save();
     }
 
-
     public function createViews()
     {
-        if (!is_dir(resource_path('views/' . $this->replacement['%kebab_case_plural%']))) {
-            mkdir(resource_path('views/' . $this->replacement['%kebab_case_plural%']));
+        if (! is_dir(resource_path('views/'.$this->replacement['%kebab_case_plural%']))) {
+            mkdir(resource_path('views/'.$this->replacement['%kebab_case_plural%']));
         }
 
         //$fields = $this->getFields();
@@ -78,28 +76,27 @@ class GenerateCrud extends Command
 
         // Create table headers
         // Then pass to the form?
-        foreach($views as $view) {
-
+        foreach ($views as $view) {
             $viewContents = str_replace(
                 array_keys($this->replacement),
                 array_values($this->replacement),
-                file_get_contents(__DIR__ . '/../../Crud/templates/views/' . $view . '.blade.template')
+                file_get_contents(__DIR__.'/../../Crud/templates/views/'.$view.'.blade.template')
             );
 
-            file_put_contents(resource_path('views/' . $this->replacement['%kebab_case_plural%'] . '/' . $view . '.blade.php'), $viewContents);
+            file_put_contents(resource_path('views/'.$this->replacement['%kebab_case_plural%'].'/'.$view.'.blade.php'), $viewContents);
         }
+
         return true;
     }
 
     public function createController()
     {
-
         $controllerContents = str_replace(
             array_keys($this->replacement),
             array_values($this->replacement),
-            file_get_contents(__DIR__ . '/../../Crud/templates/controllers/Controller.template')
+            file_get_contents(__DIR__.'/../../Crud/templates/controllers/Controller.template')
         );
-        return file_put_contents(app_path('Http/Controllers/' . $this->replacement['%controller%'] . 'Controller.php'), $controllerContents);
 
+        return file_put_contents(app_path('Http/Controllers/'.$this->replacement['%controller%'].'Controller.php'), $controllerContents);
     }
 }
