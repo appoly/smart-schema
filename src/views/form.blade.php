@@ -1,6 +1,7 @@
 <form method="POST" action="{{ $action }}" enctype="multipart/form-data">
     @csrf
 
+
     @if(isset($config) && isset($config['initial']) && !(isset($config['method']) && $config['method'] != 'PATCH'))
         <input name="_method" type="hidden" value="PATCH">
     @endif
@@ -23,7 +24,21 @@
                 ])
 
         @endif--}}
-        @include('smartschema::impl.' . $field['type'],
+        @php
+
+        $view = 'smartschema::impl.' . $field['type'];
+
+        if(view()->exists('smartschema::impl.' . $field['type'])) {
+            $view = 'smartschema::impl.' . $field['type'];             
+        }
+        else {
+
+            $view = $field['type']; 
+        }
+
+        @endphp
+
+        @include($view,
                 [
                 'field' => $field,
                 'config' => isset($config) ? $config : null
