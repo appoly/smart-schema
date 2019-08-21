@@ -24,7 +24,7 @@
                 ])
 
         @endif--}}
-        @php
+          @php
 
         $view = 'smartschema::impl.' . $field['type'];
 

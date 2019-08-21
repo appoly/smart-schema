@@ -74,6 +74,28 @@ class SchemaHelper
     }
 
     /**
+     * Render entire basic form for a model.
+     *
+     * @param $name - Table name
+     * @param $group - field group required
+     * @param null $config - initial, flavour, select_options, multiselect_selected_values, readonly, format
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
+    public static function renderConfiguredFieldGroup($name, $group, $action, $config = null)
+    {
+        $loaded_fields = self::get($name)->getFields();
+        $fields = [];
+        foreach ($loaded_fields as $loaded_field) {
+            if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default') && $loaded_field->getGroup("2") == $group) {
+                $fields[] = $loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default');
+            }
+        }
+
+        return view('smartschema::grouped-fields', compact('fields', 'action', 'config'));
+    }
+
+    /**
      * Render a field with full control.
      *
      * @param $data

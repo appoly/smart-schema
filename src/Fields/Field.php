@@ -11,6 +11,7 @@ class Field
     private $unique = false;
     private $is_remember_token = false;
     public $exists = false;
+    private $group;
 
     /**
      * @return mixed
@@ -167,6 +168,17 @@ class Field
         $this->nullable = false;
 
         return $this;
+    }
+
+    public function group(string $group)
+    {
+        $this->group = $group;
+        return $this;
+    }
+
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**
