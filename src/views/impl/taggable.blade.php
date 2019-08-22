@@ -8,8 +8,9 @@
             id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help"
             {{ isset($config['readonly']) ? 'disabled' : '' }}>
         @if(isset($config['multiselect_values']))
-            @foreach($config['multiselect_values'] as $key => $label)
-                <option {{ (old($field['name'], optional($config['initial'])[$field['name']]) == $label ? 'selected' : '') }} value="{{ $label }}">{{ $label }}</option>
+            <?php $pre_selected = optional($config['initial'])[$field['name']]; ?>
+            @foreach($config['multiselect_values'][$field['name']] ?? $config['multiselect_values'] as $key => $label)
+                <option {{ (old($field['name'], $pre_selected) == $label ? 'selected' : '') }} value="{{ $label }}">{{ $label }}</option>
             @endforeach
         @endif
     </select>
