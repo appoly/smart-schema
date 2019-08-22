@@ -4,6 +4,7 @@
     @endif
 
     <select name="{{ $field['name'] }}"
+            multiple
             class="form-control taggable {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
             id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help"
             {{ isset($config['readonly']) ? 'disabled' : '' }}>
