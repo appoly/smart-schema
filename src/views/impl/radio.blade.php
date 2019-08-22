@@ -12,7 +12,7 @@
                 type="radio"
                 id="{{ $field['name'] }}-{{ $key }}"
                 name="{{ $field['name'] }}" value="{{ $key }}"
-                class="custom-control-input" {{ ($old_value == $key ? 'selected checked' : ' ') }}>
+                class="custom-control-input" {{ ($old_value == $key ? 'selected checked' : ' ') }}
                 {{ isset($config['readonly']) ? 'disabled' : '' }}>
             <label class="custom-control-label" for="{{ $field['name'] }}-{{ $key }}">{{ $label }}</label>
         </div>
