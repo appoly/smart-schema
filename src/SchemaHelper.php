@@ -82,7 +82,7 @@ class SchemaHelper
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
 
-    public static function renderConfiguredFieldGroup($name, $group, $action, $config = null)
+    public static function renderConfiguredFieldGroup($name, $group, $config = null)
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
