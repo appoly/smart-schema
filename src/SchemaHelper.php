@@ -92,7 +92,7 @@ class SchemaHelper
             }
         }
 
-        return view('smartschema::grouped-fields', compact('fields', 'action', 'config'));
+        return view('smartschema::grouped-fields', compact('fields', 'config'));
     }
 
     /**
