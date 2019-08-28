@@ -1,7 +1,3 @@
-    @if(isset($config) && isset($config['initial']) && !(isset($config['method']) && $config['method'] != 'PATCH'))
-        <input name="_method" type="hidden" value="PATCH">
-    @endif
-
     @foreach($fields as $field)
 
           @php

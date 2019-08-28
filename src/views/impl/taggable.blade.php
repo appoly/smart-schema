@@ -2,8 +2,7 @@
     @if(isset($field['label']))
         <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
     @endif
-
-    <select name="{{ $field['name'] }}"
+    <select name="{{ $field['name'] }}[]"
             multiple
             class="form-control taggable {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
             id="{{ $field['name'] }}" aria-describedby="{{ $field['name'] }}Help"
@@ -11,7 +10,11 @@
         @if(isset($config['multiselect_values']))
             <?php $pre_selected = optional($config['initial'])[$field['name']]; ?>
             @foreach($config['multiselect_values'][$field['name']] ?? $config['multiselect_values'] as $key => $label)
-                <option {{ (old($field['name'], $pre_selected) == $label ? 'selected' : '') }} value="{{ $label }}">{{ $label }}</option>
+                <option 
+                {{ in_array($label, old($field['name'], $pre_selected) ) ? 'selected' : '' }} 
+
+                {{-- {{ (old($field['name'], $pre_selected) == $label ? 'selected' : '') }}  --}}
+                value="{{ $label }}">{{ $label }}</option>
             @endforeach
         @endif
     </select>
