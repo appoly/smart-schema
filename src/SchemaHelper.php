@@ -274,7 +274,7 @@ class SchemaHelper
             Schema::create('schema', function (Blueprint $table) {
                 $table->string('name');
                 $table->unique('name');
-                $table->text('fields');
+                $table->mediumText('fields');
                 $table->timestamps();
             });
         }
