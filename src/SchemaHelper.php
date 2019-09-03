@@ -81,13 +81,12 @@ class SchemaHelper
      * @param null $config - initial, flavour, select_options, multiselect_selected_values, readonly, format
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-
     public static function renderConfiguredFieldGroup($name, $group, $config = null)
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
-            if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default') && $loaded_field->getGroup("2") == $group) {
+            if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default') && $loaded_field->getGroup('2') == $group) {
                 $fields[] = $loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default');
             }
         }
