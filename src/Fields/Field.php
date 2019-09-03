@@ -173,6 +173,7 @@ class Field
     public function group(string $group)
     {
         $this->group = $group;
+
         return $this;
     }
 
