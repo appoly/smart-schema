@@ -2,11 +2,13 @@
 
 namespace Appoly\SmartSchema;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Appoly\SmartSchema\Fields\Field;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Exceptions\CustomException;
 
 class SchemaHelper
 {
@@ -35,11 +37,16 @@ class SchemaHelper
     {
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
+
+        if($config != null) self::validateConfig($config, $loaded_fields);
+        
         foreach ($loaded_fields as $loaded_field) {
             if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default')) {
                 $fields[] = $loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default');
             }
         }
+
+       // $fields = self::ConvertCustomFields($fields);
 
         return view('smartschema::form', compact('fields', 'action', 'config'));
     }
@@ -56,6 +63,8 @@ class SchemaHelper
     {
         $loaded_fields = self::get($table_name)->getFields();
         $data = $loaded_fields[$field_name]->getForms($flavour ?? 'default');
+
+        if($config != null) self::validateConfig($config, $loaded_fields);
 
         if (isset($config['initial'])) {
             $config['initial'] = [
@@ -85,6 +94,9 @@ class SchemaHelper
     public static function renderConfiguredFieldGroup($name, $group, $config = null)
     {
         $loaded_fields = self::get($name)->getFields();
+
+        if($config != null) self::validateConfig($config, $loaded_fields);
+
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
             if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default') && $loaded_field->getGroup("2") == $group) {
@@ -105,6 +117,17 @@ class SchemaHelper
      */
     public static function renderField($data, $type, $config = null)
     {
+        $field_type = 'smartschema::impl.' . $type;
+
+        //Check for custom field type
+        if(view()->exists('smartschema::impl.' . $type)) {
+            $field_type = 'smartschema::impl.' . $type;             
+        }
+        else {
+
+            $field_type = $type; 
+        }
+
         if (! is_array($data)) {
             $data = [
                 'name' => $data,
@@ -113,7 +136,7 @@ class SchemaHelper
         }
         $data['type'] = $type;
         if (isset($config['select_options'])) {
-            return view('smartschema::impl.'.$type,
+            return view($field_type,
                 [
                     'field' => $data,
                     'values' => $config['select_options'],
@@ -121,7 +144,7 @@ class SchemaHelper
                     'config' => $config,
                 ]);
         } else {
-            return view('smartschema::impl.'.$type,
+            return view($field_type,
                 [
                     'field' => $data,
                     'data' => isset($config) && isset($config['initial']) ? $config['initial'] : null,
@@ -289,9 +312,17 @@ class SchemaHelper
 
     public function load()
     {
-        if (Schema::hasTable('schema')) {
-            $row = DB::table('schema')->where('name', $this->name)->first();
-            $this->fields = unserialize($row->fields);
+        try {
+            if (Schema::hasTable('schema')) {
+                $row = DB::table('schema')->where('name', $this->name)->first();
+
+                if($row == null) throw new Exception("Smartschema \"" . $this->name . "\" does not exist");
+
+                $this->fields = unserialize($row->fields);
+            }
+        }
+        catch(CustomException $e) {
+            report($e);
         }
     }
 
@@ -435,4 +466,36 @@ class SchemaHelper
     {
         return $this->timestamp('deleted_at');
     }
+
+    public static function validateConfig($config = null, $loaded_fields) {
+        try {
+            if(array_key_exists('select_options', $config)) {
+                foreach($config['select_options'] as $key => $value){
+                    if(!array_key_exists($key, $loaded_fields)) {
+                        throw new Exception("\"$key\" found in select_options but is not a field in the schema");
+                    }
+                }
+            }
+        }
+        catch(CustomException $e) {
+            report($e);
+        }
+    }
+
+    // public static function convertCustomFields($fields) {
+        
+    //     $fields = array_map(function($value) {
+    //         if(view()->exists('smartschema::impl.' . $value['type'])) {
+
+    //             return 'smartschema:src/views/impl.' . $value['type'];             
+    //         }
+    //         else {
+    //             dd( $value['type']);
+
+    //             return $value['type']; 
+    //         }
+    //     }, $fields);
+
+    //     return $fields;
+    // }
 }
