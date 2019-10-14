@@ -35,7 +35,6 @@
 
             $view = $field['type']; 
         }
-
         @endphp
 
         @include($view,

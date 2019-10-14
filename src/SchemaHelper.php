@@ -75,6 +75,7 @@ class SchemaHelper
         return self::renderField($data,
             $data['type'],
             [
+                'multiselect_values' => isset($config['multiselect_values']) ? $config['multiselect_values'] : null,
                 'initial' => isset($config['initial']) ? $config['initial'] : null,
                 'select_options' => isset($config['select_options']) ? $config['select_options'] : null,
                 'readonly' => isset($config['readonly']) ? $config['readonly'] : null,
