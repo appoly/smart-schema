@@ -38,15 +38,17 @@ class SchemaHelper
         $loaded_fields = self::get($name)->getFields();
         $fields = [];
 
-        if($config != null) self::validateConfig($config, $loaded_fields);
-        
+        if ($config != null) {
+            self::validateConfig($config, $loaded_fields);
+        }
+
         foreach ($loaded_fields as $loaded_field) {
             if ($loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default')) {
                 $fields[] = $loaded_field->getForms(isset($config['flavour']) ? $config['flavour'] : 'default');
             }
         }
 
-       // $fields = self::ConvertCustomFields($fields);
+        // $fields = self::ConvertCustomFields($fields);
 
         return view('smartschema::form', compact('fields', 'action', 'config'));
     }
@@ -64,7 +66,9 @@ class SchemaHelper
         $loaded_fields = self::get($table_name)->getFields();
         $data = $loaded_fields[$field_name]->getForms($flavour ?? 'default');
 
-        if($config != null) self::validateConfig($config, $loaded_fields);
+        if ($config != null) {
+            self::validateConfig($config, $loaded_fields);
+        }
 
         if (isset($config['initial'])) {
             $config['initial'] = [
@@ -95,7 +99,9 @@ class SchemaHelper
     {
         $loaded_fields = self::get($name)->getFields();
 
-        if($config != null) self::validateConfig($config, $loaded_fields);
+        if ($config != null) {
+            self::validateConfig($config, $loaded_fields);
+        }
 
         $fields = [];
         foreach ($loaded_fields as $loaded_field) {
@@ -117,15 +123,13 @@ class SchemaHelper
      */
     public static function renderField($data, $type, $config = null)
     {
-        $field_type = 'smartschema::impl.' . $type;
+        $field_type = 'smartschema::impl.'.$type;
 
         //Check for custom field type
-        if(view()->exists('smartschema::impl.' . $type)) {
-            $field_type = 'smartschema::impl.' . $type;             
-        }
-        else {
-
-            $field_type = $type; 
+        if (view()->exists('smartschema::impl.'.$type)) {
+            $field_type = 'smartschema::impl.'.$type;
+        } else {
+            $field_type = $type;
         }
 
         if (! is_array($data)) {
@@ -316,12 +320,12 @@ class SchemaHelper
             if (Schema::hasTable('schema')) {
                 $row = DB::table('schema')->where('name', $this->name)->first();
 
-                if($row == null) throw new Exception("Smartschema \"" . $this->name . "\" does not exist");
-
+                if ($row == null) {
+                    throw new Exception('Smartschema "'.$this->name.'" does not exist');
+                }
                 $this->fields = unserialize($row->fields);
             }
-        }
-        catch(CustomException $e) {
+        } catch (CustomException $e) {
             report($e);
         }
     }
@@ -467,32 +471,32 @@ class SchemaHelper
         return $this->timestamp('deleted_at');
     }
 
-    public static function validateConfig($config = null, $loaded_fields) {
+    public static function validateConfig($config, $loaded_fields)
+    {
         try {
-            if(array_key_exists('select_options', $config)) {
-                foreach($config['select_options'] as $key => $value){
-                    if(!array_key_exists($key, $loaded_fields)) {
+            if (array_key_exists('select_options', $config)) {
+                foreach ($config['select_options'] as $key => $value) {
+                    if (! array_key_exists($key, $loaded_fields)) {
                         throw new Exception("\"$key\" found in select_options but is not a field in the schema");
                     }
                 }
             }
-        }
-        catch(CustomException $e) {
+        } catch (CustomException $e) {
             report($e);
         }
     }
 
     // public static function convertCustomFields($fields) {
-        
+
     //     $fields = array_map(function($value) {
     //         if(view()->exists('smartschema::impl.' . $value['type'])) {
 
-    //             return 'smartschema:src/views/impl.' . $value['type'];             
+    //             return 'smartschema:src/views/impl.' . $value['type'];
     //         }
     //         else {
     //             dd( $value['type']);
 
-    //             return $value['type']; 
+    //             return $value['type'];
     //         }
     //     }, $fields);
 
