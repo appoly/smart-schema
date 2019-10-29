@@ -12,7 +12,8 @@ trait SmartField
         $t = $this->getTable();
 
         if (! array_key_exists($t, SmartSchema::$table_data)) {
-            $this->fillable = SchemaHelper::getFillables($t);
+            // $this->fillable = SchemaHelper::getFillables($t);
+            $this->fillable = array_merge($this->fillable, SchemaHelper::getFillables($t));
             $this->casts = SchemaHelper::getCasts($t);
 
             SmartSchema::$table_data[$t] = [
@@ -20,7 +21,8 @@ trait SmartField
                 'casts' => $this->casts,
             ];
         } else {
-            $this->fillable = SmartSchema::$table_data[$t]['fillable'];
+            // $this->fillable = SmartSchema::$table_data[$t]['fillable'];
+            $this->fillable = array_merge($this->fillable, SmartSchema::$table_data[$t]['fillable'] );
             $this->casts = SmartSchema::$table_data[$t]['casts'];
         }
 
