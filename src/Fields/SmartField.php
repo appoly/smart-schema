@@ -22,7 +22,7 @@ trait SmartField
             ];
         } else {
             // $this->fillable = SmartSchema::$table_data[$t]['fillable'];
-            $this->fillable = array_merge($this->fillable, SmartSchema::$table_data[$t]['fillable'] );
+            $this->fillable = array_merge($this->fillable, SmartSchema::$table_data[$t]['fillable']);
             $this->casts = SmartSchema::$table_data[$t]['casts'];
         }
 
