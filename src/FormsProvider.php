@@ -2,10 +2,10 @@
 
 namespace Appoly\SmartSchema;
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\ServiceProvider;
 use Appoly\SmartSchema\Console\Commands\GenerateCrud;
 use Appoly\SmartSchema\Console\Commands\RegenerateSchema;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\ServiceProvider;
 
 class FormsProvider extends ServiceProvider
 {

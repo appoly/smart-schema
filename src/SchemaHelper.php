@@ -2,13 +2,13 @@
 
 namespace Appoly\SmartSchema;
 
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Appoly\SmartSchema\Fields\Field;
-use Illuminate\Support\Facades\Schema;
+use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Exceptions\CustomException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class SchemaHelper
 {

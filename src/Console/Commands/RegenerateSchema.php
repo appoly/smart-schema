@@ -2,8 +2,8 @@
 
 namespace Appoly\SmartSchema\Console\Commands;
 
-use Illuminate\Console\Command;
 use Appoly\SmartSchema\SchemaHelper;
+use Illuminate\Console\Command;
 
 class RegenerateSchema extends Command
 {

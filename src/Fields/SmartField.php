@@ -2,8 +2,8 @@
 
 namespace Appoly\SmartSchema\Fields;
 
-use Appoly\SmartSchema\SmartSchema;
 use Appoly\SmartSchema\SchemaHelper;
+use Appoly\SmartSchema\SmartSchema;
 
 trait SmartField
 {

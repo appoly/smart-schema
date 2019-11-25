@@ -2,9 +2,9 @@
 
 namespace Appoly\SmartSchema\Console\Commands;
 
+use Appoly\SmartSchema\SchemaHelper;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
-use Appoly\SmartSchema\SchemaHelper;
 
 class GenerateCrud extends Command
 {
