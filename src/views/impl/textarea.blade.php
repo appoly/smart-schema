@@ -11,7 +11,11 @@
               class="form-control {{ ($errors->has($field['name'])) ? ' is-invalid' : '' }}"
               id="{{ $field['name'] }}"
               aria-describedby="{{ $field['name'] }}Help"
-              {{ isset($config['readonly']) ? 'readonly' : '' }}>{{ $old_value }}</textarea>
+              {{ isset($config['readonly']) ? 'readonly' : '' }}
+              @if(isset($field['placeholder']))
+              placeholder="{{ $field['placeholder'] }}"
+              @endif
+              >{{ $old_value }}</textarea>
 
     @if(isset($field['help']))
         <small id="{{ $field['name'] }}Help" class="form-text text-muted">{{ $field['help'] }}</small>
