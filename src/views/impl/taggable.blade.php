@@ -11,9 +11,7 @@
             <?php $pre_selected = optional($config['initial'])[$field['name']]; ?>
             @foreach($config['multiselect_values'][$field['name']] ?? $config['multiselect_values'] as $key => $label)
                 <option 
-                {{ in_array($label, old($field['name'], $pre_selected) ) ? 'selected' : '' }} 
-
-                {{-- {{ (old($field['name'], $pre_selected) == $label ? 'selected' : '') }}  --}}
+                {{ old($field['name'], $pre_selected) ? in_array($label, old($field['name'], $pre_selected) ) ? 'selected' : '' : '' }}
                 value="{{ $label }}">{{ $label }}</option>
             @endforeach
         @endif
